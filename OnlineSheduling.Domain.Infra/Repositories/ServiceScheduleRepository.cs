@@ -1,6 +1,8 @@
-﻿using OnlineScheduling.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineScheduling.Domain.Entities;
 using OnlineScheduling.Domain.Infra.Context;
 using OnlineScheduling.Domain.Repositories;
+using System.Linq;
 
 namespace OnlineSheduling.Domain.Infra.Repositories
 {
@@ -8,6 +10,11 @@ namespace OnlineSheduling.Domain.Infra.Repositories
     {
         public ServiceScheduleRepository(DataContext context) : base(context)
         {
+        }
+
+        public ServiceSchedule IsExist(string serviceName)
+        {
+            return _context.ServiceSchedules.AsNoTracking().FirstOrDefault(x => x.ServiceName == serviceName);
         }
     }
 }

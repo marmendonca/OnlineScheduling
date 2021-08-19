@@ -11,36 +11,50 @@ namespace OnlineScheduling.Domain.Handlers
 {
     public class ScheduleHandler : IHandler<CreateScheduleCommand>, IHandler<UpdateScheduleCommand>, IHandler<DeleteScheduleCommand>
     {
-        private readonly IScheduleRepository _sheduleRepository;
+        private readonly IScheduleRepository _scheduleRepository;
         private readonly ICustumerRepository _custumerRepository;
         private readonly IServiceScheduleRepository _serviceSheduleRepository;
 
         public ScheduleHandler(IScheduleRepository sheduleRepository, ICustumerRepository custumerRepository, IServiceScheduleRepository serviceSheduleRepository)
         {
-            _sheduleRepository = sheduleRepository;
+            _scheduleRepository = sheduleRepository;
             _custumerRepository = custumerRepository;
             _serviceSheduleRepository = serviceSheduleRepository;
         }
 
         public IGenericCommandResult Handle(CreateScheduleCommand command)
         {
-            var custumer = new Custumer(command.FullName, command.Phone);
-            if (Validations.CustumerValidate(custumer) == false)
+            var custumer = _custumerRepository.IsExists(command.Phone);
+            if (custumer == null)
+            {
+                custumer = new Custumer(command.FullName, command.Phone);
+                if (Validations.CustumerValidate(custumer) == false)
+                    return new GenericCommandResult("Não foi possivel criar o agendamento!", false);
+
+                _custumerRepository.Save(custumer);
+            }
+
+            var serviceShedule = _serviceSheduleRepository.IsExist(command.ServiceName);
+            if (serviceShedule == null)
+            {
+                serviceShedule = new ServiceSchedule(command.ServiceName, command.ServiceValue, command.ServiceMinimumTime);
+                if (Validations.ServiceScheduleValidate(serviceShedule) == false)
+                    return new GenericCommandResult("Não foi possivel criar o agendamento!", false);
+                
+                _serviceSheduleRepository.Save(serviceShedule);
+            }
+
+            var schedule = _scheduleRepository.IsExists(command.ScheduleHour, command.ScheduleDate);
+            if (schedule != null)
+            {
+                return new GenericCommandResult("Já existe agendamento no horário solicitado!", true);
+            }
+
+            schedule = new Schedule(command.ScheduleDate, command.ScheduleHour, command.ScheduleStatus, serviceShedule.Id, custumer.Id);
+            if (Validations.ScheduleValidate(schedule) == false)
                 return new GenericCommandResult("Não foi possivel criar o agendamento!", false);
 
-            _custumerRepository.Save(custumer);
-
-            var serviceShedule = new ServiceSchedule(command.ServiceName, command.ServiceValue, command.ServiceMinimumTime);
-            if (Validations.ServiceScheduleValidate(serviceShedule) == false)
-                return new GenericCommandResult("Não foi possivel criar o agendamento!", false);
-
-            _serviceSheduleRepository.Save(serviceShedule);
-
-            var shedule = new Schedule(command.ScheduleDate, command.ScheduleHour, command.ScheduleStatus, serviceShedule.Id, custumer.Id);
-            if (Validations.ScheduleValidate(shedule) ==  false)
-                return new GenericCommandResult("Não foi possivel criar o agendamento!", false);
-
-            _sheduleRepository.Save(shedule);
+            _scheduleRepository.Save(schedule);
 
             return new GenericCommandResult("Agendamento criado!", true);
         }

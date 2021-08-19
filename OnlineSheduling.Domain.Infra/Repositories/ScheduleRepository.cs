@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineScheduling.Domain.Entities;
+using OnlineScheduling.Domain.Enums;
 using OnlineScheduling.Domain.Infra.Context;
 using OnlineScheduling.Domain.Repositories;
 using OnlineSheduling.Domain.Infra.Queries;
+using System;
 using System.Linq;
 
 namespace OnlineSheduling.Domain.Infra.Repositories
@@ -16,6 +18,11 @@ namespace OnlineSheduling.Domain.Infra.Repositories
         public Schedule GetById(long id)
         {
             return _context.Schedules.AsNoTracking().FirstOrDefault(ScheduleQueries.GetById(id));
+        }
+
+        public Schedule IsExists(TimeSpan scheduleHour, DateTime scheduleDate)
+        {
+            return _context.Schedules.AsNoTracking().FirstOrDefault(x => x.SheduleHour == scheduleHour && x.SheduleDate == scheduleDate && x.SheduleStatus == ScheduleEnum.Schedule);
         }
     }
 }
