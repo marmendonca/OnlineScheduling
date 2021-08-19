@@ -1,8 +1,8 @@
-﻿using OnlineSheduling.Domain.Commands.Contracts;
+﻿using OnlineScheduling.Domain.Commands.Contracts;
 using OnlineScheduling.Domain.Enums;
 using System;
 
-namespace OnlineSheduling.Domain.Commands
+namespace OnlineScheduling.Domain.Commands
 {
     public class CreateScheduleCommand : ICommand
     {

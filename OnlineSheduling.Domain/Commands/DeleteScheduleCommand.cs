@@ -1,6 +1,8 @@
-﻿namespace OnlineSheduling.Domain.Commands
+﻿using OnlineScheduling.Domain.Commands.Contracts;
+
+namespace OnlineScheduling.Domain.Commands
 {
-    public class DeleteScheduleCommand
+    public class DeleteScheduleCommand : ICommand
     {
         public DeleteScheduleCommand()
         {

@@ -1,4 +1,4 @@
-﻿namespace OnlineSheduling.Domain.Commands.Contracts
+﻿namespace OnlineScheduling.Domain.Commands.Contracts
 {
     public interface IGenericCommandResult
     {

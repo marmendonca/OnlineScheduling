@@ -1,6 +1,6 @@
-﻿using OnlineSheduling.Domain.Commands.Contracts;
+﻿using OnlineScheduling.Domain.Commands.Contracts;
 
-namespace OnlineSheduling.Domain.Commands
+namespace OnlineScheduling.Domain.Commands
 {
     public class GenericCommandResult : IGenericCommandResult
     {

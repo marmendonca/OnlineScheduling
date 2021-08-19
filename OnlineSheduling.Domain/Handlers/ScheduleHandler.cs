@@ -1,7 +1,7 @@
-﻿using OnlineSheduling.Domain.Commands;
-using OnlineSheduling.Domain.Commands.Contracts;
+﻿using OnlineScheduling.Domain.Commands;
+using OnlineScheduling.Domain.Commands.Contracts;
 using OnlineScheduling.Domain.Entities;
-using OnlineSheduling.Domain.Handlers.Contracts;
+using OnlineScheduling.Domain.Handlers.Contracts;
 using OnlineScheduling.Domain.Repositories;
 using OnlineScheduling.Domain.Validator;
 using System;
@@ -9,7 +9,7 @@ using OnlineScheduling.Domain.Enums;
 
 namespace OnlineScheduling.Domain.Handlers
 {
-    public class ScheduleHandler : IHandler<CreateScheduleCommand>
+    public class ScheduleHandler : IHandler<CreateScheduleCommand>, IHandler<UpdateScheduleCommand>, IHandler<DeleteScheduleCommand>
     {
         private readonly IScheduleRepository _sheduleRepository;
         private readonly ICustumerRepository _custumerRepository;
