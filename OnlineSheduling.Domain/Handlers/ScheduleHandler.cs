@@ -36,21 +36,14 @@ namespace OnlineScheduling.Domain.Handlers
 
             var serviceShedule = _serviceSheduleRepository.IsExist(command.ServiceName);
             if (serviceShedule == null)
-            {
-                serviceShedule = new ServiceSchedule(command.ServiceName, command.ServiceValue, command.ServiceMinimumTime);
-                if (Validations.ServiceScheduleValidate(serviceShedule) == false)
-                    return new GenericCommandResult("Não foi possivel criar o agendamento!", false);
-                
-                _serviceSheduleRepository.Save(serviceShedule);
-            }
+               return new GenericCommandResult("Não foi possivel criar o agendamento!", false);
+            
 
             var schedule = _scheduleRepository.IsExists(command.ScheduleHour, command.ScheduleDate);
             if (schedule != null)
-            {
                 return new GenericCommandResult("Já existe agendamento no horário solicitado!", true);
-            }
 
-            schedule = new Schedule(command.ScheduleDate, command.ScheduleHour, command.ScheduleStatus, serviceShedule.Id, custumer.Id);
+            schedule = new Schedule(command.ScheduleDate, command.ScheduleHour, command.ScheduleStatus, serviceShedule, custumer);
             if (Validations.ScheduleValidate(schedule) == false)
                 return new GenericCommandResult("Não foi possivel criar o agendamento!", false);
 
@@ -73,22 +66,22 @@ namespace OnlineScheduling.Domain.Handlers
 
             _serviceSheduleRepository.Update(serviceShedule);
 
-            var shedule = new Schedule(command.ScheduleDate, command.ScheduleHour, command.ScheduleStatus, serviceShedule.Id, custumer.Id);
+            var shedule = new Schedule(command.ScheduleDate, command.ScheduleHour, command.ScheduleStatus, serviceShedule, custumer);
             if (Validations.ScheduleValidate(shedule) == false)
                 return new GenericCommandResult("Não foi possivel atualizar o agendamento!", false);
 
-            _sheduleRepository.Update(shedule);
+            _scheduleRepository.Update(shedule);
 
             return new GenericCommandResult("Agendamento atualizado!", true);
         }
 
         public IGenericCommandResult Handle(DeleteScheduleCommand command)
         {
-            var schedule = _sheduleRepository.GetById(command.ScheduleId);
+            var schedule = _scheduleRepository.GetById(command.ScheduleId);
             schedule.DeletionDate = DateTime.Now;
             schedule.SheduleStatus = ScheduleEnum.Canceled;
 
-            _sheduleRepository.Delete(schedule);
+            _scheduleRepository.Delete(schedule);
 
             return new GenericCommandResult("Agendamento excluido!", true);
         }

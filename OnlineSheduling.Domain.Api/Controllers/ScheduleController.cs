@@ -3,13 +3,24 @@ using OnlineScheduling.Domain.Handlers;
 using OnlineScheduling.Domain.Commands;
 using OnlineScheduling.Domain.Entities;
 using OnlineScheduling.Domain.Repositories;
+using OnlineScheduling.Domain.Commands.Contracts;
+using System.Collections.Generic;
 
 namespace OnlineScheduling.Domain.Api.Controllers
 {
-    [Route("v1/shedules")]
+    [Route("v1/schedules")]
     [ApiController]
     public class ScheduleController : ControllerBase
     {
+        [HttpGet]
+        [Route("")]
+        public IEnumerable<Schedule> GetSchedulesByPhone([FromServices]IScheduleRepository repository, string phone)
+        {
+            var schedules = repository.GetSchedulesByCustumer(phone);
+
+            return schedules;
+        }
+
         [HttpGet]
         [Route("")]
         public Schedule GetById(long id, [FromServices]IScheduleRepository scheduleRepository)
@@ -19,23 +30,23 @@ namespace OnlineScheduling.Domain.Api.Controllers
 
         [HttpPost]
         [Route("")]
-        public GenericCommandResult Post([FromBody]CreateScheduleCommand command, [FromServices]ScheduleHandler handler)
+        public IGenericCommandResult Post([FromBody]CreateScheduleCommand command, [FromServices]ScheduleHandler handler)
         {
-            return (GenericCommandResult)handler.Handle(command);
+            return handler.Handle(command);
         }
 
         [HttpPut]
         [Route("")]
-        public GenericCommandResult Put([FromBody]UpdateScheduleCommand command, [FromServices]ScheduleHandler handler)
+        public IGenericCommandResult Put([FromBody]UpdateScheduleCommand command, [FromServices]ScheduleHandler handler)
         {
-            return (GenericCommandResult)handler.Handle(command);
+            return handler.Handle(command);
         }
 
         [HttpDelete]
         [Route("")]
-        public GenericCommandResult Delete([FromBody]DeleteScheduleCommand command, [FromServices]ScheduleHandler handler)
+        public IGenericCommandResult Delete([FromBody]DeleteScheduleCommand command, [FromServices]ScheduleHandler handler)
         {
-            return (GenericCommandResult)handler.Handle(command);
+            return handler.Handle(command);
         }
     }
 }

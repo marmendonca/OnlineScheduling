@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OnlineSheduling.Domain.Infra\OnlineSheduling.Domain.Infra.csproj" />
-    <ProjectReference Include="..\OnlineSheduling.Domain\OnlineSheduling.Domain.csproj" />
+    <ProjectReference Include="..\OnlineSheduling.Domain.Infra\OnlineScheduling.Domain.Infra.csproj" />
+    <ProjectReference Include="..\OnlineSheduling.Domain\OnlineScheduling.Domain.csproj" />
   </ItemGroup>
 
 </Project>

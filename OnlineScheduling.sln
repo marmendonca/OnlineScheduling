@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineSheduling.Domain", "OnlineSheduling.Domain\OnlineSheduling.Domain.csproj", "{4406A788-7361-459D-AAAA-5AC66C005ACB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineScheduling.Domain", "OnlineSheduling.Domain\OnlineScheduling.Domain.csproj", "{4406A788-7361-459D-AAAA-5AC66C005ACB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineSheduling.Domain.Api", "OnlineSheduling.Domain.Api\OnlineSheduling.Domain.Api.csproj", "{C634120E-B314-496A-82B7-4FF0442A3B89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineScheduling.Domain.Api", "OnlineSheduling.Domain.Api\OnlineScheduling.Domain.Api.csproj", "{C634120E-B314-496A-82B7-4FF0442A3B89}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineSheduling.Domain.Infra", "OnlineSheduling.Domain.Infra\OnlineSheduling.Domain.Infra.csproj", "{C829715D-1739-4BCB-AB4C-4326DF1C6F3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineScheduling.Domain.Infra", "OnlineSheduling.Domain.Infra\OnlineScheduling.Domain.Infra.csproj", "{C829715D-1739-4BCB-AB4C-4326DF1C6F3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

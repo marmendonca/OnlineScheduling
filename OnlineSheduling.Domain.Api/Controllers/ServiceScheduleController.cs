@@ -1,18 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineScheduling.Domain.Commands;
 using OnlineScheduling.Domain.Entities;
+using OnlineScheduling.Domain.Repositories;
+using System.Collections.Generic;
 
-namespace OnlineSheduling.Domain.Api.Controllers
+namespace OnlineScheduling.Domain.Api.Controllers
 {
     [Route("v1/serviceSchedules")]
     [ApiController]
     public class ServiceScheduleController : ControllerBase
     {
-        [HttpPost]
+        [HttpGet]
         [Route("")]
-        public GenericCommandResult Post([FromBody]ServiceSchedule serviceSchedule)
+        public IEnumerable<ServiceSchedule> GetAll([FromServices]IServiceScheduleRepository repository)
         {
-            return null;
+            return repository.GetAll();
         }
     }
 }

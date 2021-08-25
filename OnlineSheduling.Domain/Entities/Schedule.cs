@@ -9,13 +9,13 @@ namespace OnlineScheduling.Domain.Entities
         {
         }
 
-        public Schedule(DateTime sheduleDate, TimeSpan sheduleHour, ScheduleEnum sheduleStatus, long shuduleServiceId, long custumerId)
+        public Schedule(DateTime sheduleDate, TimeSpan sheduleHour, ScheduleEnum sheduleStatus, ServiceSchedule serviceSchedule, Custumer custumer)
         {
             SheduleDate = sheduleDate;
             SheduleHour = sheduleHour;
             SheduleStatus = sheduleStatus;
-            ShuduleServiceId = shuduleServiceId;
-            CustumerId = custumerId;
+            ServiceSchedule = serviceSchedule;
+            Custumer = custumer;
         }
 
         public DateTime SheduleDate { get; set; }
@@ -24,8 +24,8 @@ namespace OnlineScheduling.Domain.Entities
 
         public ScheduleEnum SheduleStatus { get; set; }
 
-        public long ShuduleServiceId { get; set; }
+        public ServiceSchedule ServiceSchedule { get; set; }
 
-        public long CustumerId { get; set; }
+        public Custumer Custumer { get; set; }
     }
 }
