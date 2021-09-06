@@ -5,7 +5,7 @@ using OnlineScheduling.Domain.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OnlineSheduling.Domain.Infra.Repositories
+namespace OnlineScheduling.Domain.Infra.Repositories
 {
     public class ServiceScheduleRepository : Repository<ServiceSchedule>, IServiceScheduleRepository
     {

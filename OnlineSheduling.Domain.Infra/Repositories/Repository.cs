@@ -2,7 +2,7 @@
 using OnlineScheduling.Domain.Infra.Context;
 using OnlineScheduling.Domain.Repositories;
 
-namespace OnlineSheduling.Domain.Infra.Repositories
+namespace OnlineScheduling.Domain.Infra.Repositories
 {
     public class Repository<T> : IRepository<T>
     {

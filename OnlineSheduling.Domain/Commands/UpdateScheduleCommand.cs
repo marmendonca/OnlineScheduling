@@ -10,7 +10,7 @@ namespace OnlineScheduling.Domain.Commands
         {
         }
 
-        public UpdateScheduleCommand(string fullName, string phone, string serviceName, decimal serviceValue, TimeSpan serviceMinimumTime, DateTime scheduleDate, TimeSpan scheduleHour, ScheduleEnum scheduleStatus)
+        public UpdateScheduleCommand(string fullName, string phone, string serviceName, decimal serviceValue, TimeSpan serviceMinimumTime, DateTime scheduleDate, int scheduleHour, ScheduleEnum scheduleStatus)
         {
             FullName = fullName;
             Phone = phone;
@@ -34,7 +34,7 @@ namespace OnlineScheduling.Domain.Commands
 
         public DateTime ScheduleDate { get; set; }
 
-        public TimeSpan ScheduleHour { get; set; }
+        public int ScheduleHour { get; set; }
 
         public ScheduleEnum ScheduleStatus { get; set; }
     }

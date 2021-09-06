@@ -8,8 +8,8 @@ namespace OnlineScheduling.Domain.Repositories
     {
         Schedule GetById(long id);
 
-        Schedule IsExists(TimeSpan scheduleHour, DateTime scheduleDate);
+        Schedule IsExists(DateTime scheduleDate);
 
-        IEnumerable<Schedule> GetSchedulesByCustumer(string phone);
+        IEnumerable<Schedule> GetSchedulesByPhone(string phone);
     }
 }

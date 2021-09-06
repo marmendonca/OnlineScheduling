@@ -16,7 +16,7 @@ namespace OnlineScheduling.Domain.Api.Controllers
         [Route("")]
         public IEnumerable<Schedule> GetSchedulesByPhone([FromServices]IScheduleRepository repository, string phone)
         {
-            var schedules = repository.GetSchedulesByCustumer(phone);
+            var schedules = repository.GetSchedulesByPhone(phone);
 
             return schedules;
         }

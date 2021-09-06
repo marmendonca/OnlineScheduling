@@ -8,7 +8,7 @@ using Microsoft.OpenApi.Models;
 using OnlineScheduling.Domain.Handlers;
 using OnlineScheduling.Domain.Repositories;
 using OnlineScheduling.Domain.Infra.Context;
-using OnlineSheduling.Domain.Infra.Repositories;
+using OnlineScheduling.Domain.Infra.Repositories;
 
 namespace OnlineSheduling.Domain.Api
 {
@@ -32,6 +32,7 @@ namespace OnlineSheduling.Domain.Api
             services.AddTransient<IScheduleRepository, ScheduleRepository>();
             services.AddTransient<IServiceScheduleRepository, ServiceScheduleRepository>();
             services.AddTransient<ICustumerRepository, CustumerRepository>();
+            services.AddTransient<IDateSchedulingRepository, DateSchedulingRepository>();
 
             services.AddTransient<ScheduleHandler, ScheduleHandler>();
             services.AddCors();

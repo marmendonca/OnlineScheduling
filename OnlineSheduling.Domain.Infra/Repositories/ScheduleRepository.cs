@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace OnlineSheduling.Domain.Infra.Repositories
+namespace OnlineScheduling.Domain.Infra.Repositories
 {
     public class ScheduleRepository : Repository<Schedule>, IScheduleRepository
     {
@@ -21,14 +21,14 @@ namespace OnlineSheduling.Domain.Infra.Repositories
             return _context.Schedules.AsNoTracking().FirstOrDefault(ScheduleQueries.GetById(id));
         }
 
-        public IEnumerable<Schedule> GetSchedulesByCustumer(string phone)
+        public IEnumerable<Schedule> GetSchedulesByPhone(string phone)
         {
             return _context.Schedules.AsNoTracking().Where(x => x.Custumer.Phone == phone).ToList();
         }
 
-        public Schedule IsExists(TimeSpan scheduleHour, DateTime scheduleDate)
+        public Schedule IsExists(DateTime scheduleDate)
         {
-            return _context.Schedules.AsNoTracking().FirstOrDefault(x => x.SheduleHour == scheduleHour && x.SheduleDate == scheduleDate && x.SheduleStatus == ScheduleEnum.Schedule);
+            return _context.Schedules.AsNoTracking().FirstOrDefault(x => x.ScheduleDate == scheduleDate && x.SheduleStatus == ScheduleEnum.Schedule);
         }
     }
 }

@@ -4,7 +4,7 @@ using OnlineScheduling.Domain.Infra.Context;
 using OnlineScheduling.Domain.Repositories;
 using System.Linq;
 
-namespace OnlineSheduling.Domain.Infra.Repositories
+namespace OnlineScheduling.Domain.Infra.Repositories
 {
     public class CustumerRepository : Repository<Custumer>, ICustumerRepository
     {

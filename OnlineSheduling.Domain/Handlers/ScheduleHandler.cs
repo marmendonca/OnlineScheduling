@@ -14,12 +14,14 @@ namespace OnlineScheduling.Domain.Handlers
         private readonly IScheduleRepository _scheduleRepository;
         private readonly ICustumerRepository _custumerRepository;
         private readonly IServiceScheduleRepository _serviceSheduleRepository;
+        private readonly IDateSchedulingRepository _dateSchedulingRepository;
 
-        public ScheduleHandler(IScheduleRepository sheduleRepository, ICustumerRepository custumerRepository, IServiceScheduleRepository serviceSheduleRepository)
+        public ScheduleHandler(IScheduleRepository sheduleRepository, ICustumerRepository custumerRepository, IServiceScheduleRepository serviceSheduleRepository, IDateSchedulingRepository dateSchedulingRepository)
         {
             _scheduleRepository = sheduleRepository;
             _custumerRepository = custumerRepository;
             _serviceSheduleRepository = serviceSheduleRepository;
+            _dateSchedulingRepository = dateSchedulingRepository;
         }
 
         public IGenericCommandResult Handle(CreateScheduleCommand command)
@@ -34,20 +36,24 @@ namespace OnlineScheduling.Domain.Handlers
                 _custumerRepository.Save(custumer);
             }
 
-            var serviceShedule = _serviceSheduleRepository.IsExist(command.ServiceName);
-            if (serviceShedule == null)
+            var serviceSchedule = _serviceSheduleRepository.IsExist(command.ServiceName);
+            if (serviceSchedule == null)
                return new GenericCommandResult("Não foi possivel criar o agendamento!", false);
             
 
-            var schedule = _scheduleRepository.IsExists(command.ScheduleHour, command.ScheduleDate);
+            var schedule = _scheduleRepository.IsExists(command.ScheduleDate);
             if (schedule != null)
                 return new GenericCommandResult("Já existe agendamento no horário solicitado!", true);
 
-            schedule = new Schedule(command.ScheduleDate, command.ScheduleHour, command.ScheduleStatus, serviceShedule, custumer);
+            schedule = new Schedule(command.ScheduleDate, command.ScheduleStatus, serviceSchedule, custumer);
             if (Validations.ScheduleValidate(schedule) == false)
                 return new GenericCommandResult("Não foi possivel criar o agendamento!", false);
 
             _scheduleRepository.Save(schedule);
+
+            var dateScheduling = new DateScheduling(schedule.ScheduleDate, string.Format("{0}:hh:mm", schedule.ScheduleDate), true);
+            
+            _dateSchedulingRepository.Save(dateScheduling);
 
             return new GenericCommandResult("Agendamento criado!", true);
         }
@@ -66,7 +72,9 @@ namespace OnlineScheduling.Domain.Handlers
 
             _serviceSheduleRepository.Update(serviceShedule);
 
-            var shedule = new Schedule(command.ScheduleDate, command.ScheduleHour, command.ScheduleStatus, serviceShedule, custumer);
+            //command. = string.Format("{0}:hh:mm", command.ScheduleDate);
+            command.ScheduleHour = command.ScheduleDate.Hour;
+            var shedule = new Schedule(command.ScheduleDate, command.ScheduleStatus, serviceShedule, custumer);
             if (Validations.ScheduleValidate(shedule) == false)
                 return new GenericCommandResult("Não foi possivel atualizar o agendamento!", false);
 
