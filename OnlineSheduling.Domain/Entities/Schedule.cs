@@ -1,28 +1,10 @@
-﻿using OnlineScheduling.Domain.Enums;
-using System;
-
-namespace OnlineScheduling.Domain.Entities
+﻿namespace OnlineScheduling.Domain.Entities
 {
-    public class Schedule : Entity
+    public class Schedule : Entitiy<int>
     {
-        public Schedule()
-        {
-        }
-
-        public Schedule(DateTime sheduleDate, ScheduleEnum sheduleStatus, ServiceSchedule serviceSchedule, Custumer custumer)
-        {
-            ScheduleDate = sheduleDate;
-            SheduleStatus = sheduleStatus;
-            ServiceSchedule = serviceSchedule;
-            Custumer = custumer;
-        }
-
-        public DateTime ScheduleDate { get; set; }
-
-        public ScheduleEnum SheduleStatus { get; set; }
-
-        public ServiceSchedule ServiceSchedule { get; set; }
-
-        public Custumer Custumer { get; set; }
+        public int ServiceId { get; private set; }
+        public int CustomerId { get; private set; }
+        public virtual Service Service { get; private set; }
+        public virtual Customer Customer { get; private set; }
     }
 }

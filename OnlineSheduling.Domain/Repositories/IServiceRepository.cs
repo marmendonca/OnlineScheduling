@@ -2,6 +2,6 @@
 
 namespace OnlineScheduling.Domain.Repositories;
 
-public interface IScheduleRepository : IBaseRepository<Schedule, int>
+public interface IServiceRepository : IBaseRepository<Service, int>
 {
 }

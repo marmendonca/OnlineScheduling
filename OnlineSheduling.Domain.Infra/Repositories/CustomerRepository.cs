@@ -4,9 +4,9 @@ using OnlineScheduling.Infra.Context;
 
 namespace OnlineScheduling.Infra.Repositories;
 
-public sealed class ScheduleRepository : BaseRepository<Schedule, int>, IScheduleRepository
+public sealed class CustomerRepository : BaseRepository<Customer, int>, ICustomerRepository
 {
-    public ScheduleRepository(DataContext context) : base(context)
+    public CustomerRepository(DataContext context) : base(context)
     {
     }
 }
