@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineScheduling.Domain.Repositories;
+using OnlineScheduling.Domain.Repositories.v1;
 using System.Collections.Generic;
 
-namespace OnlineScheduling.Api.Controllers
+namespace OnlineScheduling.Api.Controllers.v1
 {
     [Route("v1/schedules")]
     [ApiController]
@@ -10,7 +10,7 @@ namespace OnlineScheduling.Api.Controllers
     {
         [HttpGet]
         [Route("")]
-        public IEnumerable<int> GetSchedulesByPhone([FromServices]IScheduleRepository repository, string phone)
+        public IEnumerable<int> GetSchedulesByPhone([FromServices] IScheduleRepository repository, string phone)
         {
             //var schedules = repository.GetSchedulesByPhone(phone);
 

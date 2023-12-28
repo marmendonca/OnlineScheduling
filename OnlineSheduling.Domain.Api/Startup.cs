@@ -1,3 +1,4 @@
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OnlineScheduling.Api.Extensions;
+using OnlineScheduling.Domain.Command.Commands.v1.Schedules.Create;
 using OnlineScheduling.Infra.Context;
 
 namespace OnlineSheduling.Domain.Api;
@@ -19,7 +21,6 @@ public class Startup
 
     public IConfiguration Configuration { get; }
 
-    // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
@@ -29,6 +30,8 @@ public class Startup
         {
             options.UseSqlServer(Configuration.GetConnectionString("SqlServer") ?? string.Empty).EnableSensitiveDataLogging();
         });
+
+        services.AddMediatR(typeof(CreateScheduleCommand).Assembly);
 
         services.AddRepositories<DataContext>();
 
@@ -40,7 +43,6 @@ public class Startup
         });
     }
 
-    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
