@@ -7,7 +7,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OnlineScheduling.Api.Extensions;
+using OnlineScheduling.Domain.Command.Commands.v1.Customer;
 using OnlineScheduling.Domain.Command.Commands.v1.Schedules.Create;
+using OnlineScheduling.Domain.Query.Queries.v1.Schedules.GetById;
 using OnlineScheduling.Infra.Context;
 
 namespace OnlineSheduling.Domain.Api;
@@ -26,12 +28,13 @@ public class Startup
         services.AddControllers();
 
         //services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
-        services.AddDbContext<DataContext>(delegate (DbContextOptionsBuilder options)
-        {
-            options.UseSqlServer(Configuration.GetConnectionString("SqlServer") ?? string.Empty).EnableSensitiveDataLogging();
-        });
+        services.AddDbContext<DataContext>(options =>
+            options.UseSqlServer(Configuration.GetSection("DefaultConnection").Value)
+        );
 
-        services.AddMediatR(typeof(CreateScheduleCommand).Assembly);
+        services.AddMediatR(config => config.RegisterServicesFromAssemblies(typeof(CreateScheduleCommand).Assembly, typeof(GetScheduleByIdQuery).Assembly));
+
+        services.AddAutoMapper(typeof(CustomerCommandProfile), typeof(GetScheduleByIdQueryProfile));
 
         services.AddRepositories<DataContext>();
 

@@ -2,7 +2,7 @@
 using MediatR;
 using OnlineScheduling.Domain.Repositories.v1;
 
-namespace OnlineScheduling.Domain.Command.Commands.v1.Schedules.Update;
+namespace OnlineScheduling.Domain.Command.Commands.v1.Customer.Update;
 
 public sealed class UpdateCustomerCommandHandler : IRequestHandler<UpdateCustomerCommand, Unit>
 {

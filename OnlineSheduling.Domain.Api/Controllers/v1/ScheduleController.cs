@@ -1,50 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OnlineScheduling.Domain.Repositories.v1;
-using System.Collections.Generic;
+﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using OnlineScheduling.Domain.Command.Commands.v1.Schedules.Create;
+using OnlineScheduling.Domain.Command.Commands.v1.Schedules.Update;
+using OnlineScheduling.Domain.Query.Queries.v1.Schedules.GetById;
+using System.Threading.Tasks;
 
 namespace OnlineScheduling.Api.Controllers.v1
 {
-    [Route("v1/schedules")]
+    [Route("api/v1/schedules")]
     [ApiController]
     public class ScheduleController : ControllerBase
     {
-        [HttpGet]
-        [Route("")]
-        public IEnumerable<int> GetSchedulesByPhone([FromServices] IScheduleRepository repository, string phone)
+        private readonly IMediator _mediator;
+
+        public ScheduleController(IMediator mediator)
         {
-            //var schedules = repository.GetSchedulesByPhone(phone);
-
-            //return schedules;
-
-            return null;
+            _mediator = mediator;
         }
 
-        //[HttpGet]
-        //[Route("")]
-        //public Schedule GetById(long id, [FromServices]IScheduleRepository scheduleRepository)
-        //{
-        //    return scheduleRepository.GetById(id);
-        //}
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetByIdAsync([FromQuery] GetScheduleByIdQuery query)
+        {
+            var response = await _mediator.Send(query);
 
-        //[HttpPost]
-        //[Route("")]
-        //public IGenericCommandResult Post([FromBody]CreateScheduleCommand command, [FromServices]ScheduleHandler handler)
-        //{
-        //    return handler.Handle(command);
-        //}
+            return Ok(response);
+        }
 
-        //[HttpPut]
-        //[Route("")]
-        //public IGenericCommandResult Put([FromBody]UpdateScheduleCommand command, [FromServices]ScheduleHandler handler)
-        //{
-        //    return handler.Handle(command);
-        //}
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync([FromBody] CreateScheduleCommand command)
+        {
+            await _mediator.Send(command);
 
-        //[HttpDelete]
-        //[Route("")]
-        //public IGenericCommandResult Delete([FromBody]DeleteScheduleCommand command, [FromServices]ScheduleHandler handler)
-        //{
-        //    return handler.Handle(command);
-        //}
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateAsync([FromBody] UpdateScheduleCommand command)
+        {
+            await _mediator.Send(command);
+
+            return Ok();
+        }
     }
 }

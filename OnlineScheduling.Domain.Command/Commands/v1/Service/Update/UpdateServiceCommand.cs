@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace OnlineScheduling.Domain.Command.Commands.v1.Schedules.Update;
+namespace OnlineScheduling.Domain.Command.Commands.v1.Service.Update;
 
 public sealed class UpdateServiceCommand : IRequest<Unit>
 {
