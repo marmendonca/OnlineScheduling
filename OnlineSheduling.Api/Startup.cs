@@ -1,4 +1,3 @@
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +11,7 @@ using OnlineScheduling.Domain.Command.Commands.v1.Schedules.Create;
 using OnlineScheduling.Domain.Query.Queries.v1.Schedules.GetById;
 using OnlineScheduling.Infra.Context;
 
-namespace OnlineSheduling.Domain.Api;
+namespace OnlineScheduling.Api;
 
 public class Startup
 {
@@ -32,7 +31,8 @@ public class Startup
             options.UseSqlServer(Configuration.GetSection("DefaultConnection").Value)
         );
 
-        services.AddMediatR(config => config.RegisterServicesFromAssemblies(typeof(CreateScheduleCommand).Assembly, typeof(GetScheduleByIdQuery).Assembly));
+        services.AddMediatR(config => config
+            .RegisterServicesFromAssemblies(typeof(CreateScheduleCommand).Assembly, typeof(GetScheduleByIdQuery).Assembly));
 
         services.AddAutoMapper(typeof(CustomerCommandProfile), typeof(GetScheduleByIdQueryProfile));
 

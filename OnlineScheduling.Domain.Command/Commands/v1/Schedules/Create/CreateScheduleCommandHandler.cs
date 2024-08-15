@@ -20,7 +20,7 @@ public sealed class CreateScheduleCommandHandler : IRequestHandler<CreateSchedul
     {
         var schedule = _mapper.Map<Schedule>(command);
 
-        await _scheduleRepository.SaveAsync(schedule);
+        await _scheduleRepository.AddAsync(schedule);
 
         return Unit.Value;
     }

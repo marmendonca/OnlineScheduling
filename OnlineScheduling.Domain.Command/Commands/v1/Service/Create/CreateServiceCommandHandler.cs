@@ -19,7 +19,7 @@ public sealed class CreateServiceCommandHandler : IRequestHandler<CreateServiceC
     {
         var service = _mapper.Map<Entities.Service>(command);
 
-        await _serviceRepository.SaveAsync(service);
+        await _serviceRepository.AddAsync(service);
 
         return Unit.Value;
     }

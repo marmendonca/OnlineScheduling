@@ -19,7 +19,7 @@ public sealed class CreateCustomerCommandHandler : IRequestHandler<CreateCustome
     {
         var customer = _mapper.Map<Entities.Customer>(command);
 
-        await _customerRepository.SaveAsync(customer);
+        await _customerRepository.AddAsync(customer);
 
         return Unit.Value;
     }

@@ -5,7 +5,7 @@ namespace OnlineScheduling.Domain.Repositories;
 
 public interface IBaseRepository<TEntity, in TId> where TEntity : Entitiy<TId>
 {
-    Task SaveAsync(TEntity entity);
+    Task AddAsync(TEntity entity);
 
     Task UpdateAsync(TEntity entity);
 

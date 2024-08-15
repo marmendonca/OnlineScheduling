@@ -12,6 +12,9 @@ public sealed class ScheduleMap : IEntityTypeConfiguration<Schedule>
         builder.HasKey(schedule => schedule.Id);
         builder.Property(schedule => schedule.ServiceId).HasColumnType("INT");
         builder.Property(schedule => schedule.CustomerId).HasColumnType("INT");
+        builder.Property(schedule => schedule.ProfessionalId).HasColumnType("INT");
+        builder.Property(schedule => schedule.Date).IsRequired().HasColumnType("DATETIME2");
+        builder.Property(schedule => schedule.Active).HasColumnType("INT");
 
         builder.HasOne(schedule => schedule.Service)
             .WithMany(service => service.Schedules)
@@ -20,5 +23,9 @@ public sealed class ScheduleMap : IEntityTypeConfiguration<Schedule>
         builder.HasOne(schedule => schedule.Customer)
             .WithMany(customer => customer.Schedules)
             .HasForeignKey(schedule => schedule.CustomerId);
+        
+        builder.HasOne(schedule => schedule.Professional)
+            .WithMany(professional => professional.Schedules)
+            .HasForeignKey(schedule => schedule.ProfessionalId);
     }
 }

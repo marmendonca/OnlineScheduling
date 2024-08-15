@@ -10,6 +10,9 @@ public sealed class ServiceMap : IEntityTypeConfiguration<Service>
     {
         builder.ToTable(nameof(Service));
         builder.HasKey(service => service.Id);
-        builder.Property(service => service.Name);
+        builder.Property(service => service.Name).HasColumnType("VARCHAR(200)");
+        builder.Property(service => service.Value).HasColumnType("DECIMAL");
+        builder.Property(service => service.CompletionTime).HasColumnType("TIME");
+        builder.Property(service => service.Active).HasColumnType("BIT");
     }
 }

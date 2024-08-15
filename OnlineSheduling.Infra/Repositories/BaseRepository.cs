@@ -17,7 +17,7 @@ public class BaseRepository<TEntity, TId> : IBaseRepository<TEntity, TId> where 
         _dbSet = _context.Set<TEntity>();
     }
 
-    public virtual async Task SaveAsync(TEntity entity)
+    public virtual async Task AddAsync(TEntity entity)
     {
         await _context.AddAsync(entity);
         await _context.SaveChangesAsync();
