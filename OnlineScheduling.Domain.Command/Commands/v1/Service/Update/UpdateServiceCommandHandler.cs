@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using OnlineScheduling.Domain.Repositories.v1;
+using OnlineScheduling.Domain.Contracts.Repositories.v1;
 
 namespace OnlineScheduling.Domain.Command.Commands.v1.Service.Update;
 
@@ -17,11 +17,12 @@ public sealed class UpdateServiceCommandHandler : IRequestHandler<UpdateServiceC
 
     public async Task<Unit> Handle(UpdateServiceCommand command, CancellationToken cancellationToken)
     {
-        var schedule = await _serviceRepository.GetByIdAsync(command.Id);
+        var service = await _serviceRepository
+            .GetByIdAsync(command.Id) ?? throw new Exception("Usuário não encontrado.");
 
-        _mapper.Map(command, schedule);
+        _mapper.Map(command, service);
 
-        await _serviceRepository.UpdateAsync(schedule);
+        await _serviceRepository.UpdateAsync(service);
 
         return Unit.Value;
     }

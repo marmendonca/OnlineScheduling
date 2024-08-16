@@ -6,10 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OnlineScheduling.Api.Extensions;
-using OnlineScheduling.Domain.Command.Commands.v1.Customer;
+using OnlineScheduling.Domain.Command.Commands.Mappers;
 using OnlineScheduling.Domain.Command.Commands.v1.Schedules.Create;
+using OnlineScheduling.Domain.Contracts.Repositories;
+using OnlineScheduling.Domain.Contracts.Repositories.v1;
 using OnlineScheduling.Domain.Query.Queries.v1.Schedules.GetById;
 using OnlineScheduling.Infra.Context;
+using OnlineScheduling.Infra.Repositories.Dapper.v1;
 
 namespace OnlineScheduling.Api;
 
@@ -26,15 +29,19 @@ public class Startup
     {
         services.AddControllers();
 
+        var connectionString = Configuration.GetSection("DefaultConnection").Value;
+        
         //services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
         services.AddDbContext<DataContext>(options =>
-            options.UseSqlServer(Configuration.GetSection("DefaultConnection").Value)
+            options.UseSqlServer(connectionString)
         );
 
+        services.AddDapper(connectionString);
+        
         services.AddMediatR(config => config
             .RegisterServicesFromAssemblies(typeof(CreateScheduleCommand).Assembly, typeof(GetScheduleByIdQuery).Assembly));
 
-        services.AddAutoMapper(typeof(CustomerCommandProfile), typeof(GetScheduleByIdQueryProfile));
+        services.AddAutoMapper(typeof(CustomerProfile), typeof(GetScheduleByIdQueryProfile));
 
         services.AddRepositories<DataContext>();
 
@@ -42,7 +49,7 @@ public class Startup
 
         services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1", new OpenApiInfo { Title = "OnlineSheduling.Domain.Api", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "OnlineSheduling.Api", Version = "v1" });
         });
     }
 
@@ -52,7 +59,7 @@ public class Startup
         {
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OnlineSheduling.Domain.Api v1"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OnlineSheduling.Api v1"));
         }
 
         app.UseHttpsRedirection();

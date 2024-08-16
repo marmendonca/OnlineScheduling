@@ -1,8 +1,7 @@
-﻿namespace OnlineScheduling.Domain.Enums
+﻿namespace OnlineScheduling.Domain.Enums;
+
+public enum ScheduleEnum
 {
-    public enum ScheduleEnum
-    {
-        Schedule = 1,
-        Canceled = 2
-    }
+    Schedule = 1,
+    Canceled = 2
 }

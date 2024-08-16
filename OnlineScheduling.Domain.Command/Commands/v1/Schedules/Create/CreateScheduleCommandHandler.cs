@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
+using OnlineScheduling.Domain.Contracts.Repositories.v1;
 using OnlineScheduling.Domain.Entities;
-using OnlineScheduling.Domain.Repositories.v1;
 
 namespace OnlineScheduling.Domain.Command.Commands.v1.Schedules.Create;
 

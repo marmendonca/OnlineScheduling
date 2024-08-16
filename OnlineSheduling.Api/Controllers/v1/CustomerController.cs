@@ -5,41 +5,36 @@ using OnlineScheduling.Domain.Command.Commands.v1.Customer.Update;
 using OnlineScheduling.Domain.Query.Queries.v1.Customer.GetById;
 using System.Threading.Tasks;
 
-namespace OnlineScheduling.Api.Controllers.v1
+namespace OnlineScheduling.Api.Controllers.v1;
+
+[Route("api/v1/customers")]
+[ApiController]
+public class CustomerController : BaseController
 {
-    [Route("api/v1/customers")]
-    [ApiController]
-    public class CustomerController : ControllerBase
+    public CustomerController(IMediator mediator) : base(mediator)
+    { }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
     {
-        private readonly IMediator _mediator;
+        var response = await _mediator.Send(new GetCustomerByIdQuery(id));
 
-        public CustomerController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        return Ok(response);
+    }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
-        {
-            var response = await _mediator.Send(new GetCustomerByIdQuery(id));
+    [HttpPost]
+    public async Task<IActionResult> CreateAsync([FromBody] CreateCustomerCommand command)
+    {
+        await _mediator.Send(command);
 
-            return Ok(response);
-        }
+        return Ok();
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody] CreateCustomerCommand command)
-        {
-            await _mediator.Send(command);
+    [HttpPut]
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateCustomerCommand command)
+    {
+        await _mediator.Send(command);
 
-            return Ok();
-        }
-
-        [HttpPut]
-        public async Task<IActionResult> UpdateAsync([FromBody] UpdateCustomerCommand command)
-        {
-            await _mediator.Send(command);
-
-            return Ok();
-        }
+        return Ok();
     }
 }

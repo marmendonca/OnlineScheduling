@@ -5,41 +5,36 @@ using OnlineScheduling.Domain.Command.Commands.v1.Schedules.Update;
 using OnlineScheduling.Domain.Query.Queries.v1.Schedules.GetById;
 using System.Threading.Tasks;
 
-namespace OnlineScheduling.Api.Controllers.v1
+namespace OnlineScheduling.Api.Controllers.v1;
+
+[Route("api/v1/schedules")]
+[ApiController]
+public class ScheduleController : BaseController
 {
-    [Route("api/v1/schedules")]
-    [ApiController]
-    public class ScheduleController : ControllerBase
+    public ScheduleController(IMediator mediator) : base(mediator)
+    { }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetByIdAsync([FromQuery] GetScheduleByIdQuery query)
     {
-        private readonly IMediator _mediator;
+        var response = await _mediator.Send(query);
 
-        public ScheduleController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        return Ok(response);
+    }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetByIdAsync([FromQuery] GetScheduleByIdQuery query)
-        {
-            var response = await _mediator.Send(query);
+    [HttpPost]
+    public async Task<IActionResult> CreateAsync([FromBody] CreateScheduleCommand command)
+    {
+        await _mediator.Send(command);
 
-            return Ok(response);
-        }
+        return Ok();
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody] CreateScheduleCommand command)
-        {
-            await _mediator.Send(command);
+    [HttpPut]
+    public async Task<IActionResult> UpdateAsync([FromBody] UpdateScheduleCommand command)
+    {
+        await _mediator.Send(command);
 
-            return Ok();
-        }
-
-        [HttpPut]
-        public async Task<IActionResult> UpdateAsync([FromBody] UpdateScheduleCommand command)
-        {
-            await _mediator.Send(command);
-
-            return Ok();
-        }
+        return Ok();
     }
 }

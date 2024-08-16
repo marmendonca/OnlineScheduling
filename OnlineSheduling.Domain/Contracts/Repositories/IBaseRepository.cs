@@ -1,7 +1,7 @@
 ﻿using OnlineScheduling.Domain.Entities;
 using System.Threading.Tasks;
 
-namespace OnlineScheduling.Domain.Repositories;
+namespace OnlineScheduling.Domain.Contracts.Repositories;
 
 public interface IBaseRepository<TEntity, in TId> where TEntity : Entitiy<TId>
 {

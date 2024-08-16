@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
-using OnlineScheduling.Domain.Repositories.v1;
+using OnlineScheduling.Domain.Contracts.Repositories.v1;
 
 namespace OnlineScheduling.Domain.Query.Queries.v1.Schedules.GetById;
 

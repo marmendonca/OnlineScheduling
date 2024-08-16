@@ -19,7 +19,6 @@
   <ItemGroup>
     <ProjectReference Include="..\OnlineScheduling.Domain.Command\OnlineScheduling.Domain.Command.csproj" />
     <ProjectReference Include="..\OnlineScheduling.Domain.Query\OnlineScheduling.Domain.Query.csproj" />
-    <ProjectReference Include="..\OnlineSheduling.Domain.Infra\OnlineScheduling.Infra.csproj" />
     <ProjectReference Include="..\OnlineSheduling.Domain\OnlineScheduling.Domain.csproj" />
     <ProjectReference Include="..\OnlineSheduling.Infra\OnlineScheduling.Infra.csproj" />
   </ItemGroup>

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineScheduling.Domain.Entities;
 using OnlineScheduling.Infra.Context;
-using OnlineScheduling.Domain.Repositories;
 using System.Threading.Tasks;
+using OnlineScheduling.Domain.Contracts.Repositories;
 
 namespace OnlineScheduling.Infra.Repositories;
 

@@ -14,6 +14,7 @@ public class DataContext : DbContext
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Schedule> Schedules { get; set; }
     public DbSet<Professional> Professionals { get; set; }
+    public DbSet<ProfessionalService> ProfessionalServices { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
