@@ -7,13 +7,13 @@ using OnlineScheduling.Domain.Entities;
 
 namespace OnlineScheduling.Infra.Repositories.Dapper.v1;
 
-public class ServiceRepository : AbstractDapperRepository, IServiceReadOnlyRepository
+public class ProfessionalRepository : AbstractDapperRepository, IProfessionalReadOnlyRepository
 {
-    public ServiceRepository(IDapperContext context) : base(context)
+    public ProfessionalRepository(IDapperContext context) : base(context)
     {
     }
     
-    public async Task<IEnumerable<Service>> FindAsync()
+    public async Task<IEnumerable<Professional>> FindAsync()
     {
         var connection = _context.OpenConnection();
         var builder = new SqlBuilder();
@@ -23,19 +23,18 @@ public class ServiceRepository : AbstractDapperRepository, IServiceReadOnlyRepos
                     Id, 
                     CreatedAt, 
                     Name, 
-                    Value, 
-                    CompletionTime, 
-                    Active 
-                FROM Service (NOLOCK)");
+                    Cpf, 
+                    BirthDate
+                FROM Professional (NOLOCK)");
 
-        var services = await connection.QueryAsync<Service>(
+        var professional = await connection.QueryAsync<Professional>(
             resultQuery.RawSql,
             resultQuery.Parameters);
 
-        return services;
+        return professional;
     }
 
-    public async Task<Service> GetByIdAsync(int id)
+    public async Task<Professional> GetByIdAsync(int id)
     {
         var connection = _context.OpenConnection();
         var builder = new SqlBuilder();
@@ -45,16 +44,15 @@ public class ServiceRepository : AbstractDapperRepository, IServiceReadOnlyRepos
                     Id, 
                     CreatedAt, 
                     Name, 
-                    Value, 
-                    CompletionTime, 
-                    Active 
-                FROM Service (NOLOCK)
+                    Cpf, 
+                    BirthDate
+                FROM Professional (NOLOCK)
                 WHERE Id = @id", new { id });
 
-        var service = await connection.QueryFirstOrDefaultAsync<Service>(
+        var professional = await connection.QueryFirstOrDefaultAsync<Professional>(
             resultQuery.RawSql,
             resultQuery.Parameters);
 
-        return service;
+        return professional;
     }
 }

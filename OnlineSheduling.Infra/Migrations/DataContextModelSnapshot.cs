@@ -34,7 +34,7 @@ namespace OnlineScheduling.Infra.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .HasColumnType("VARCHAR(20)");
+                        .HasColumnType("VARCHAR(100)");
 
                     b.Property<string>("Name")
                         .HasColumnType("VARCHAR(100)");

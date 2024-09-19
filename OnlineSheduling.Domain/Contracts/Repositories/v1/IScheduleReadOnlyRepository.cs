@@ -4,8 +4,8 @@ using OnlineScheduling.Domain.Entities;
 
 namespace OnlineScheduling.Domain.Contracts.Repositories.v1;
 
-public interface IServiceReadOnlyRepository
+public interface IScheduleReadOnlyRepository
 {
-    Task<IEnumerable<Service>> FindAsync();
-    Task<Service> GetByIdAsync(int id);
+    Task<IEnumerable<Schedule>> FindAsync();
+    Task<Schedule> GetByIdAsync(int id);
 }

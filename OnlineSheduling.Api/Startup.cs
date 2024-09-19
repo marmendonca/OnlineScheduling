@@ -1,3 +1,5 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -7,12 +9,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OnlineScheduling.Api.Extensions;
 using OnlineScheduling.Domain.Command.Commands.Mappers;
+using OnlineScheduling.Domain.Command.Commands.v1.Customer.Create;
 using OnlineScheduling.Domain.Command.Commands.v1.Schedules.Create;
-using OnlineScheduling.Domain.Contracts.Repositories;
-using OnlineScheduling.Domain.Contracts.Repositories.v1;
 using OnlineScheduling.Domain.Query.Queries.v1.Schedules.GetById;
 using OnlineScheduling.Infra.Context;
-using OnlineScheduling.Infra.Repositories.Dapper.v1;
 
 namespace OnlineScheduling.Api;
 
@@ -41,9 +41,13 @@ public class Startup
         services.AddMediatR(config => config
             .RegisterServicesFromAssemblies(typeof(CreateScheduleCommand).Assembly, typeof(GetScheduleByIdQuery).Assembly));
 
-        services.AddAutoMapper(typeof(CustomerProfile), typeof(GetScheduleByIdQueryProfile));
+        services.AddAutoMapper(typeof(CustomerProfile));
 
         services.AddRepositories<DataContext>();
+        
+        services.AddValidatorsFromAssemblyContaining<CreateCustomerCommandValidator>();
+        
+        services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
         services.AddCors();
 

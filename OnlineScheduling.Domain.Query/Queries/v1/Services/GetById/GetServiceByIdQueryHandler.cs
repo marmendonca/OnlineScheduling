@@ -2,24 +2,15 @@ using AutoMapper;
 using MediatR;
 using OnlineScheduling.Domain.Contracts.Repositories.v1;
 
-namespace OnlineScheduling.Domain.Query.Queries.v1.Services.GetById
+namespace OnlineScheduling.Domain.Query.Queries.v1.Services.GetById;
+
+public sealed class GetServiceByIdQueryHandler(IServiceReadOnlyRepository serviceReadOnlyRepository)
+    : IRequestHandler<GetServiceByIdQuery, GetServiceByIdQueryResponse>
 {
-    public sealed class GetServiceByIdQueryHandler : IRequestHandler<GetServiceByIdQuery, GetServiceByIdQueryResponse>
+    public async Task<GetServiceByIdQueryResponse> Handle(GetServiceByIdQuery query, CancellationToken cancellationToken)
     {
-        private readonly IServiceReadOnlyRepository _serviceReadOnlyRepository;
-        private readonly IMapper _mapper;
+        var service = await serviceReadOnlyRepository.GetByIdAsync(query.Id);
 
-        public GetServiceByIdQueryHandler(IMapper mapper, IServiceReadOnlyRepository serviceReadOnlyRepository)
-        {
-            _serviceReadOnlyRepository = serviceReadOnlyRepository;
-            _mapper = mapper;
-        }
-
-        public async Task<GetServiceByIdQueryResponse> Handle(GetServiceByIdQuery query, CancellationToken cancellationToken)
-        {
-            var service = await _serviceReadOnlyRepository.GetByIdAsync(query.Id);
-            
-            return _mapper.Map<GetServiceByIdQueryResponse>(service);
-        }
+        return (GetServiceByIdQueryResponse)service;
     }
 }

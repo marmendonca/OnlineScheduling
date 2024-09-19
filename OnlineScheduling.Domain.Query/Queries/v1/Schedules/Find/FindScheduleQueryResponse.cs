@@ -1,8 +1,8 @@
-﻿using OnlineScheduling.Domain.Entities;
+using OnlineScheduling.Domain.Entities;
 
-namespace OnlineScheduling.Domain.Query.Queries.v1.Schedules.GetById;
+namespace OnlineScheduling.Domain.Query.Queries.v1.Schedules.Find;
 
-public sealed class GetScheduleByIdQueryResponse
+public class FindScheduleQueryResponse
 {
     public int Id { get; set; }
     public DateTime Date { get; set; }
@@ -11,7 +11,7 @@ public sealed class GetScheduleByIdQueryResponse
     public string CustomerEmail { get; set; }
     public string ServiceName { get; set; }
 
-    public static explicit operator GetScheduleByIdQueryResponse(Schedule schedule)
+    public static explicit operator FindScheduleQueryResponse(Schedule schedule)
     {
         return new()
         {

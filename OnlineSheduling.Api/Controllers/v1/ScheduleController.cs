@@ -4,6 +4,7 @@ using OnlineScheduling.Domain.Command.Commands.v1.Schedules.Create;
 using OnlineScheduling.Domain.Command.Commands.v1.Schedules.Update;
 using OnlineScheduling.Domain.Query.Queries.v1.Schedules.GetById;
 using System.Threading.Tasks;
+using OnlineScheduling.Domain.Query.Queries.v1.Schedules.Find;
 
 namespace OnlineScheduling.Api.Controllers.v1;
 
@@ -13,6 +14,14 @@ public class ScheduleController : BaseController
 {
     public ScheduleController(IMediator mediator) : base(mediator)
     { }
+    
+    [HttpGet]
+    public async Task<IActionResult> FindAsync()
+    {
+        var response = await _mediator.Send(new FindScheduleQuery());
+
+        return Ok(response);
+    }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdAsync([FromQuery] GetScheduleByIdQuery query)

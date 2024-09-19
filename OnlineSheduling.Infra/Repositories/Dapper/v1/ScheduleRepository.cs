@@ -7,13 +7,13 @@ using OnlineScheduling.Domain.Entities;
 
 namespace OnlineScheduling.Infra.Repositories.Dapper.v1;
 
-public class ServiceRepository : AbstractDapperRepository, IServiceReadOnlyRepository
+public class ScheduleRepository : AbstractDapperRepository, IScheduleReadOnlyRepository
 {
-    public ServiceRepository(IDapperContext context) : base(context)
+    public ScheduleRepository(IDapperContext context) : base(context)
     {
     }
-    
-    public async Task<IEnumerable<Service>> FindAsync()
+        
+    public async Task<IEnumerable<Schedule>> FindAsync()
     {
         var connection = _context.OpenConnection();
         var builder = new SqlBuilder();
@@ -22,20 +22,21 @@ public class ServiceRepository : AbstractDapperRepository, IServiceReadOnlyRepos
                 SELECT 
                     Id, 
                     CreatedAt, 
-                    Name, 
-                    Value, 
-                    CompletionTime, 
-                    Active 
-                FROM Service (NOLOCK)");
+                    ServiceId, 
+                    CustomerId, 
+                    ProfessionalId,
+                    Date,
+                    Active
+                FROM Schedule (NOLOCK)");
 
-        var services = await connection.QueryAsync<Service>(
+        var schedule = await connection.QueryAsync<Schedule>(
             resultQuery.RawSql,
             resultQuery.Parameters);
 
-        return services;
+        return schedule;
     }
 
-    public async Task<Service> GetByIdAsync(int id)
+    public async Task<Schedule> GetByIdAsync(int id)
     {
         var connection = _context.OpenConnection();
         var builder = new SqlBuilder();
@@ -44,17 +45,18 @@ public class ServiceRepository : AbstractDapperRepository, IServiceReadOnlyRepos
                 SELECT 
                     Id, 
                     CreatedAt, 
-                    Name, 
-                    Value, 
-                    CompletionTime, 
-                    Active 
-                FROM Service (NOLOCK)
+                    ServiceId, 
+                    CustomerId, 
+                    ProfessionalId,
+                    Date,
+                    Active
+                FROM Schedule (NOLOCK)
                 WHERE Id = @id", new { id });
 
-        var service = await connection.QueryFirstOrDefaultAsync<Service>(
+        var schedule = await connection.QueryFirstOrDefaultAsync<Schedule>(
             resultQuery.RawSql,
             resultQuery.Parameters);
 
-        return service;
+        return schedule;
     }
 }

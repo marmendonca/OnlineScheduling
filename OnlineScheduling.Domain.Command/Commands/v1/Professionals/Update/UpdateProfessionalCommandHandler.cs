@@ -1,11 +1,19 @@
+using AutoMapper;
 using MediatR;
+using OnlineScheduling.Domain.Contracts.Repositories.v1;
 
 namespace OnlineScheduling.Domain.Command.Commands.v1.Professionals.Update;
 
-public class UpdateProfessionalCommandHandler : IRequestHandler<UpdateProfessionalCommand, Unit>
+public class UpdateProfessionalCommandHandler(IProfessionalRepository professionalRepository, IMapper mapper) : IRequestHandler<UpdateProfessionalCommand, Unit>
 {
-    public Task<Unit> Handle(UpdateProfessionalCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(UpdateProfessionalCommand command, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var professional = await professionalRepository.GetByIdAsync(command.Id);
+
+        mapper.Map(command, professional);
+
+        await professionalRepository.UpdateAsync(professional);
+
+        return Unit.Value;
     }
 }

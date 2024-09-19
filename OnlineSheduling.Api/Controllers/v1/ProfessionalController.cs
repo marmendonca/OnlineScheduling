@@ -3,6 +3,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OnlineScheduling.Domain.Command.Commands.v1.Professionals.Create;
 using OnlineScheduling.Domain.Command.Commands.v1.Professionals.Update;
+using OnlineScheduling.Domain.Query.Queries.v1.Professional.Find;
+using OnlineScheduling.Domain.Query.Queries.v1.Professional.GetById;
 
 namespace OnlineScheduling.Api.Controllers.v1;
 
@@ -12,6 +14,22 @@ public class ProfessionalController : BaseController
 {
     public ProfessionalController(IMediator mediator) : base(mediator)
     { }
+    
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetByIdAsync(GetProfessionalByIdQuery query)
+    {
+        var response = await _mediator.Send(query);
+
+        return Ok(response);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> FindAsync()
+    {
+        var response = await _mediator.Send(new FindProfessionalQuery());
+
+        return Ok(response);
+    }
     
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] CreateProfessionalCommand command)

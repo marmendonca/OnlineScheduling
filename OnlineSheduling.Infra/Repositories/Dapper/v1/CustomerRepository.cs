@@ -7,13 +7,13 @@ using OnlineScheduling.Domain.Entities;
 
 namespace OnlineScheduling.Infra.Repositories.Dapper.v1;
 
-public class ServiceRepository : AbstractDapperRepository, IServiceReadOnlyRepository
+public class CustomerRepository : AbstractDapperRepository, ICustomerReadOnlyRepository
 {
-    public ServiceRepository(IDapperContext context) : base(context)
+    public CustomerRepository(IDapperContext context) : base(context)
     {
     }
     
-    public async Task<IEnumerable<Service>> FindAsync()
+    public async Task<IEnumerable<Customer>> FindAsync()
     {
         var connection = _context.OpenConnection();
         var builder = new SqlBuilder();
@@ -23,19 +23,18 @@ public class ServiceRepository : AbstractDapperRepository, IServiceReadOnlyRepos
                     Id, 
                     CreatedAt, 
                     Name, 
-                    Value, 
-                    CompletionTime, 
-                    Active 
-                FROM Service (NOLOCK)");
+                    Phone, 
+                    Email
+                FROM Customer (NOLOCK)");
 
-        var services = await connection.QueryAsync<Service>(
+        var customer = await connection.QueryAsync<Customer>(
             resultQuery.RawSql,
             resultQuery.Parameters);
 
-        return services;
+        return customer;
     }
 
-    public async Task<Service> GetByIdAsync(int id)
+    public async Task<Customer> GetByIdAsync(int id)
     {
         var connection = _context.OpenConnection();
         var builder = new SqlBuilder();
@@ -45,16 +44,15 @@ public class ServiceRepository : AbstractDapperRepository, IServiceReadOnlyRepos
                     Id, 
                     CreatedAt, 
                     Name, 
-                    Value, 
-                    CompletionTime, 
-                    Active 
-                FROM Service (NOLOCK)
+                    Phone, 
+                    Email
+                FROM Customer (NOLOCK)
                 WHERE Id = @id", new { id });
 
-        var service = await connection.QueryFirstOrDefaultAsync<Service>(
+        var customer = await connection.QueryFirstOrDefaultAsync<Customer>(
             resultQuery.RawSql,
             resultQuery.Parameters);
 
-        return service;
+        return customer;
     }
 }

@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OnlineScheduling.Domain.Command.Commands.v1.Service.Create;
 using OnlineScheduling.Domain.Command.Commands.v1.Service.Update;
+using OnlineScheduling.Domain.Query.Queries.v1.Services.Find;
 using OnlineScheduling.Domain.Query.Queries.v1.Services.GetById;
 
 namespace OnlineScheduling.Api.Controllers.v1;
@@ -13,6 +14,14 @@ public class ServiceController : BaseController
 {
     public ServiceController(IMediator mediator) : base(mediator)
     { }
+    
+    [HttpGet]
+    public async Task<IActionResult> FindAsync()
+    {
+        var response = await _mediator.Send(new FindServiceQuery());
+
+        return Ok(response);
+    }
     
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
