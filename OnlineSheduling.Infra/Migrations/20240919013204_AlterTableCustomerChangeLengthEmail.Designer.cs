@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineScheduling.Infra.Context;
 
@@ -11,9 +12,11 @@ using OnlineScheduling.Infra.Context;
 namespace OnlineScheduling.Infra.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240919013204_AlterTableCustomerChangeLengthEmail")]
+    partial class AlterTableCustomerChangeLengthEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,12 +83,6 @@ namespace OnlineScheduling.Infra.Migrations
                     b.Property<int>("ProfessionalId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.HasKey("ServiceId", "ProfessionalId");
 
                     b.HasIndex("ProfessionalId");
@@ -110,11 +107,11 @@ namespace OnlineScheduling.Infra.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("INT");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("DATETIME2");
+
                     b.Property<int>("ProfessionalId")
                         .HasColumnType("INT");
-
-                    b.Property<DateTime>("ScheduleAt")
-                        .HasColumnType("DATETIME2");
 
                     b.Property<int>("ServiceId")
                         .HasColumnType("INT");

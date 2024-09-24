@@ -1,9 +1,11 @@
-﻿using MediatR;
+﻿using System.Text.Json.Serialization;
+using MediatR;
 
 namespace OnlineScheduling.Domain.Command.Commands.v1.Service.Update;
 
 public sealed class UpdateServiceCommand : IRequest<Unit>
 {
+    [JsonIgnore]
     public int Id { get; set; }
     public string Name { get; set; }
     public decimal Value { get; set; }

@@ -39,9 +39,10 @@ public class CustomerController : BaseController
         return Ok();
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateAsync([FromBody] UpdateCustomerCommand command)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateAsync(int id, [FromBody] UpdateCustomerCommand command)
     {
+        command.Id = id;
         await _mediator.Send(command);
 
         return Ok();

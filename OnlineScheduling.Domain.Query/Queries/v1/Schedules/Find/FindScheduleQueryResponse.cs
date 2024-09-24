@@ -16,7 +16,7 @@ public class FindScheduleQueryResponse
         return new()
         {
             Id = schedule.Id,
-            Date = schedule.Date,
+            Date = schedule.ScheduleAt,
             CustomerName = schedule.Customer?.Name,
             CustomerPhone = schedule.Customer?.Phone,
             CustomerEmail = schedule.Customer?.Email,

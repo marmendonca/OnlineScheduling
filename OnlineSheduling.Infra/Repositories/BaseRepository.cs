@@ -44,3 +44,25 @@ public class BaseRepository<TEntity, TId> : IBaseRepository<TEntity, TId> where 
         return await _dbSet.FindAsync(id);
     }
 }
+
+public class BaseRepository<TEntity> : IBaseRepository<TEntity>
+{
+    protected readonly DataContext _context;
+
+    public BaseRepository(DataContext context)
+    {
+        _context = context;
+    }
+
+    public virtual async Task AddAsync(TEntity entity)
+    {
+        await _context.AddAsync(entity);
+        await _context.SaveChangesAsync();
+    }
+
+    public virtual async Task UpdateAsync(TEntity entity)
+    {
+        _context.Entry(entity).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+    }
+}

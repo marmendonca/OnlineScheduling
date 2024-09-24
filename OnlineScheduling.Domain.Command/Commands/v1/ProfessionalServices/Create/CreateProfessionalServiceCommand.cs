@@ -4,5 +4,6 @@ namespace OnlineScheduling.Domain.Command.Commands.v1.ProfessionalServices.Creat
 
 public class CreateProfessionalServiceCommand : IRequest<Unit>
 {
-        
+    public int ProfessionalId { get; set; }
+    public int ServiceId { get; set; }
 }

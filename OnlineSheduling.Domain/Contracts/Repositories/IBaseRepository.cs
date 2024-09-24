@@ -13,3 +13,10 @@ public interface IBaseRepository<TEntity, in TId> where TEntity : Entitiy<TId>
 
     Task<TEntity> GetByIdAsync(TId id);
 }
+
+public interface IBaseRepository<in TEntity>
+{
+    Task AddAsync(TEntity entity);
+
+    Task UpdateAsync(TEntity entity);
+}

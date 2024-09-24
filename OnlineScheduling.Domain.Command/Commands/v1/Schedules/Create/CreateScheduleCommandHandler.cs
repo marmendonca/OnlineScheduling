@@ -19,6 +19,8 @@ public sealed class CreateScheduleCommandHandler : IRequestHandler<CreateSchedul
     public async Task<Unit> Handle(CreateScheduleCommand command, CancellationToken cancellationToken)
     {
         var schedule = _mapper.Map<Schedule>(command);
+        
+        schedule.SetActive(true);
 
         await _scheduleRepository.AddAsync(schedule);
 

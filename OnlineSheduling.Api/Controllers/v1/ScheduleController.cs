@@ -39,9 +39,10 @@ public class ScheduleController : BaseController
         return Ok();
     }
 
-    [HttpPut]
-    public async Task<IActionResult> UpdateAsync([FromBody] UpdateScheduleCommand command)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateAsync(int id, [FromBody] UpdateScheduleCommand command)
     {
+        command.Id = id;
         await _mediator.Send(command);
 
         return Ok();
