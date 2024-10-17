@@ -8,7 +8,7 @@ public class ProfessionalServiceMap : IEntityTypeConfiguration<ProfessionalServi
 {
     public void Configure(EntityTypeBuilder<ProfessionalService> builder)
     {
-            builder.HasKey(ps => new { ps.ServiceId, ps.ProfessionalId });
+            builder.HasKey(ps => ps.Id);
             
             builder.HasOne(ps => ps.Professional)
                 .WithMany(p => p.Services)

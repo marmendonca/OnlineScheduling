@@ -16,22 +16,14 @@ using OnlineScheduling.Infra.Context;
 
 namespace OnlineScheduling.Api;
 
-public class Startup
+public class Startup(IConfiguration configuration)
 {
-    public Startup(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
-
-    public IConfiguration Configuration { get; }
-
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
 
-        var connectionString = Configuration.GetSection("DefaultConnection").Value;
+        var connectionString = configuration.GetSection("DefaultConnection").Value;
         
-        //services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("Database"));
         services.AddDbContext<DataContext>(options =>
             options.UseSqlServer(connectionString)
         );

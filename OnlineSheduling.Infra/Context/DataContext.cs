@@ -10,7 +10,6 @@ public class DataContext : DbContext
     }
 
     public DbSet<Service> Services { get; set; }
-
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Schedule> Schedules { get; set; }
     public DbSet<Professional> Professionals { get; set; }

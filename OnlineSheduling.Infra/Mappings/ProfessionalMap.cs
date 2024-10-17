@@ -13,5 +13,6 @@ public class ProfessionalMap : IEntityTypeConfiguration<Professional>
             builder.Property(professional => professional.Name).HasColumnType("VARCHAR(100)");
             builder.Property(professional => professional.Cpf).HasColumnType("VARCHAR(11)");
             builder.Property(professional => professional.BirthDate).HasColumnType("DATETIME2");
+            builder.Property(professional => professional.Email).HasColumnType("VARCHAR(200)");
         }
 }
