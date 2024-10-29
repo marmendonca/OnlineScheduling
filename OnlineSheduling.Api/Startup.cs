@@ -9,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OnlineScheduling.Api.Extensions;
 using OnlineScheduling.Domain.Command.Commands.Mappers;
-using OnlineScheduling.Domain.Command.Commands.v1.Customer.Create;
 using OnlineScheduling.Domain.Command.Commands.v1.Schedules.Create;
 using OnlineScheduling.Domain.Query.Queries.v1.Schedules.GetById;
 using OnlineScheduling.Infra.Context;
@@ -37,7 +36,7 @@ public class Startup(IConfiguration configuration)
 
         services.AddRepositories<DataContext>();
         
-        services.AddValidatorsFromAssemblyContaining<CreateCustomerCommandValidator>();
+        services.AddValidatorsFromAssemblyContaining<CreateScheduleCommandValidator>();
         
         services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 

@@ -7,12 +7,8 @@ using OnlineScheduling.Domain.Entities;
 
 namespace OnlineScheduling.Infra.Repositories.Dapper.v1;
 
-public class CustomerRepository : AbstractDapperRepository, ICustomerReadOnlyRepository
+public class CustomerRepository(IDapperContext context) : AbstractDapperRepository(context), ICustomerReadOnlyRepository
 {
-    public CustomerRepository(IDapperContext context) : base(context)
-    {
-    }
-    
     public async Task<IEnumerable<Customer>> FindAsync()
     {
         var connection = _context.OpenConnection();
@@ -48,6 +44,28 @@ public class CustomerRepository : AbstractDapperRepository, ICustomerReadOnlyRep
                     Email
                 FROM Customer (NOLOCK)
                 WHERE Id = @id", new { id });
+
+        var customer = await connection.QueryFirstOrDefaultAsync<Customer>(
+            resultQuery.RawSql,
+            resultQuery.Parameters);
+
+        return customer;
+    }
+    
+    public async Task<Customer> GetByPhoneAsync(string phone)
+    {
+        var connection = _context.OpenConnection();
+        var builder = new SqlBuilder();
+
+        var resultQuery = builder.AddTemplate(@"
+                SELECT 
+                    Id, 
+                    CreatedAt, 
+                    Name, 
+                    Phone, 
+                    Email
+                FROM Customer (NOLOCK)
+                WHERE Phone = @phone", new { phone });
 
         var customer = await connection.QueryFirstOrDefaultAsync<Customer>(
             resultQuery.RawSql,

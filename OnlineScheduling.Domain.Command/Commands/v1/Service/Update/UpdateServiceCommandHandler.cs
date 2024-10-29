@@ -4,25 +4,17 @@ using OnlineScheduling.Domain.Contracts.Repositories.v1;
 
 namespace OnlineScheduling.Domain.Command.Commands.v1.Service.Update;
 
-public sealed class UpdateServiceCommandHandler : IRequestHandler<UpdateServiceCommand, Unit>
+public sealed class UpdateServiceCommandHandler(IServiceRepository serviceRepository, IMapper mapper)
+    : IRequestHandler<UpdateServiceCommand, Unit>
 {
-    private readonly IServiceRepository _serviceRepository;
-    private readonly IMapper _mapper;
-
-    public UpdateServiceCommandHandler(IServiceRepository serviceRepository, IMapper mapper)
-    {
-        _serviceRepository = serviceRepository;
-        _mapper = mapper;
-    }
-
     public async Task<Unit> Handle(UpdateServiceCommand command, CancellationToken cancellationToken)
     {
-        var service = await _serviceRepository
+        var service = await serviceRepository
             .GetByIdAsync(command.Id) ?? throw new Exception("Usuário não encontrado.");
 
-        _mapper.Map(command, service);
+        mapper.Map(command, service);
 
-        await _serviceRepository.UpdateAsync(service);
+        await serviceRepository.UpdateAsync(service);
 
         return Unit.Value;
     }

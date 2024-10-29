@@ -10,15 +10,12 @@ namespace OnlineScheduling.Api.Controllers.v1;
 
 [Route("api/v1/schedules")]
 [ApiController]
-public class ScheduleController : BaseController
+public class ScheduleController(IMediator mediator) : BaseController(mediator)
 {
-    public ScheduleController(IMediator mediator) : base(mediator)
-    { }
-    
     [HttpGet]
-    public async Task<IActionResult> FindAsync()
+    public async Task<IActionResult> FindAsync([FromQuery] FindScheduleQuery query)
     {
-        var response = await _mediator.Send(new FindScheduleQuery());
+        var response = await _mediator.Send(query);
 
         return Ok(response);
     }

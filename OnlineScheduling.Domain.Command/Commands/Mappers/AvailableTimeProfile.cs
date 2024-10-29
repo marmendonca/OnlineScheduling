@@ -1,14 +1,13 @@
 using AutoMapper;
-using OnlineScheduling.Domain.Command.Commands.v1.AvailableTimes.Create;
+using OnlineScheduling.Domain.Command.Commands.v1.AvailableDates.Create;
 using OnlineScheduling.Domain.Entities;
 
-namespace OnlineScheduling.Domain.Command.Commands.Mappers
+namespace OnlineScheduling.Domain.Command.Commands.Mappers;
+
+public class AvailableTimeProfile : Profile
 {
-    public class AvailableTimeProfile : Profile
+    public AvailableTimeProfile()
     {
-        public AvailableTimeProfile()
-        {
-            CreateMap<CreateAvailableTimeCommand, AvailableTime>();
-        }
+        CreateMap<CreateAvailableDateCommand, AvailableDate>();
     }
 }

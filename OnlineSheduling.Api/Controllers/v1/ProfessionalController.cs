@@ -10,11 +10,8 @@ namespace OnlineScheduling.Api.Controllers.v1;
 
 [Route("api/v1/professionals")]
 [ApiController]
-public class ProfessionalController : BaseController
+public class ProfessionalController(IMediator mediator) : BaseController(mediator)
 {
-    public ProfessionalController(IMediator mediator) : base(mediator)
-    { }
-    
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdAsync(GetProfessionalByIdQuery query)
     {
@@ -24,9 +21,9 @@ public class ProfessionalController : BaseController
     }
     
     [HttpGet]
-    public async Task<IActionResult> FindAsync()
+    public async Task<IActionResult> FindAsync([FromQuery] FindProfessionalQuery query)
     {
-        var response = await _mediator.Send(new FindProfessionalQuery());
+        var response = await _mediator.Send(query);
 
         return Ok(response);
     }

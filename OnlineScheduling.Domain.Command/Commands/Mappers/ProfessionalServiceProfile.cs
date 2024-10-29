@@ -3,14 +3,13 @@ using OnlineScheduling.Domain.Command.Commands.v1.ProfessionalServices.Create;
 using OnlineScheduling.Domain.Command.Commands.v1.ProfessionalServices.Update;
 using OnlineScheduling.Domain.Entities;
 
-namespace OnlineScheduling.Domain.Command.Commands.Mappers
+namespace OnlineScheduling.Domain.Command.Commands.Mappers;
+
+public class ProfessionalServiceProfile : Profile
 {
-    public class ProfessionalServiceProfile : Profile
+    public ProfessionalServiceProfile()
     {
-        public ProfessionalServiceProfile()
-        {
-            CreateMap<UpdateProfessionalServiceCommand, ProfessionalService>();
-            CreateMap<CreateProfessionalServiceCommand, ProfessionalService>();
-        }
+        CreateMap<UpdateProfessionalServiceCommand, ProfessionalService>();
+        CreateMap<CreateProfessionalServiceCommand, ProfessionalService>();
     }
 }

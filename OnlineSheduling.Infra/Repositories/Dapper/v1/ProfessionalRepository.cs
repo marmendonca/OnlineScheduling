@@ -7,12 +7,9 @@ using OnlineScheduling.Domain.Entities;
 
 namespace OnlineScheduling.Infra.Repositories.Dapper.v1;
 
-public class ProfessionalRepository : AbstractDapperRepository, IProfessionalReadOnlyRepository
+public class ProfessionalRepository(IDapperContext context)
+    : AbstractDapperRepository(context), IProfessionalReadOnlyRepository
 {
-    public ProfessionalRepository(IDapperContext context) : base(context)
-    {
-    }
-    
     public async Task<IEnumerable<Professional>> FindAsync()
     {
         var connection = _context.OpenConnection();

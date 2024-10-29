@@ -45,14 +45,9 @@ public class BaseRepository<TEntity, TId> : IBaseRepository<TEntity, TId> where 
     }
 }
 
-public class BaseRepository<TEntity> : IBaseRepository<TEntity>
+public class BaseRepository<TEntity>(DataContext context) : IBaseRepository<TEntity>
 {
-    protected readonly DataContext _context;
-
-    public BaseRepository(DataContext context)
-    {
-        _context = context;
-    }
+    protected readonly DataContext _context = context;
 
     public virtual async Task AddAsync(TEntity entity)
     {

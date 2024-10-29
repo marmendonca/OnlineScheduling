@@ -1,20 +1,17 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OnlineScheduling.Domain.Command.Commands.v1.Customer.Create;
-using OnlineScheduling.Domain.Command.Commands.v1.Customer.Update;
+using OnlineScheduling.Domain.Command.Commands.v1.Customer.CreateOrUpdate;
 using OnlineScheduling.Domain.Query.Queries.v1.Customer.GetById;
 using System.Threading.Tasks;
 using OnlineScheduling.Domain.Query.Queries.v1.Customer.Find;
+using OnlineScheduling.Domain.Query.Queries.v1.Customer.GetByPhone;
 
 namespace OnlineScheduling.Api.Controllers.v1;
 
 [Route("api/v1/customers")]
 [ApiController]
-public class CustomerController : BaseController
+public class CustomerController(IMediator mediator) : BaseController(mediator)
 {
-    public CustomerController(IMediator mediator) : base(mediator)
-    { }
-
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
     {
@@ -23,28 +20,27 @@ public class CustomerController : BaseController
         return Ok(response);
     }
     
-    [HttpGet]
-    public async Task<IActionResult> FindAsync()
+    [HttpGet("phone/{phone}")]
+    public async Task<IActionResult> GetByPhoneAsync([FromRoute] string phone)
     {
-        var response = await _mediator.Send(new FindCustomerQuery());
+        var response = await _mediator.Send(new GetCustomerByPhoneQuery(phone));
+
+        return Ok(response);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> FindAsync([FromQuery] FindCustomerQuery query)
+    {
+        var response = await _mediator.Send(query);
 
         return Ok(response);
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateAsync([FromBody] CreateCustomerCommand command)
+    public async Task<IActionResult> CreateOrUpdateAsync([FromBody] CreateOrUpdateCustomerCommand command)
     {
-        await _mediator.Send(command);
+        var result = await _mediator.Send(command);
 
-        return Ok();
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateAsync(int id, [FromBody] UpdateCustomerCommand command)
-    {
-        command.Id = id;
-        await _mediator.Send(command);
-
-        return Ok();
+        return Ok(result);
     }
 }

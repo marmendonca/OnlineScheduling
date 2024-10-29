@@ -4,14 +4,10 @@ using OnlineScheduling.Domain.Contracts.Repositories;
 
 namespace OnlineScheduling.Infra.Context;
 
-public class DapperContext : IDapperContext
+public class DapperContext(string connectionString) : IDapperContext
 {
-    private readonly string _connectionString;
-
-    public DapperContext(string connectionString) => _connectionString = connectionString;
-
     public IDbConnection OpenConnection()
     {
-        return (IDbConnection) new SqlConnection(_connectionString);
+        return (IDbConnection) new SqlConnection(connectionString);
     }
 }

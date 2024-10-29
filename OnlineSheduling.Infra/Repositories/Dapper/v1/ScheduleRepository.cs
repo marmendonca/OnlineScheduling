@@ -8,12 +8,8 @@ using OnlineScheduling.Domain.Entities;
 
 namespace OnlineScheduling.Infra.Repositories.Dapper.v1;
 
-public class ScheduleRepository : AbstractDapperRepository, IScheduleReadOnlyRepository
+public class ScheduleRepository(IDapperContext context) : AbstractDapperRepository(context), IScheduleReadOnlyRepository
 {
-    public ScheduleRepository(IDapperContext context) : base(context)
-    {
-    }
-        
     public async Task<IEnumerable<Schedule>> FindAsync()
     {
         var connection = _context.OpenConnection();

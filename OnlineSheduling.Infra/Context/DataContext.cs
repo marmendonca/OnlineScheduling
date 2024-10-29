@@ -3,12 +3,8 @@ using OnlineScheduling.Domain.Entities;
 
 namespace OnlineScheduling.Infra.Context;
 
-public class DataContext : DbContext
+public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
 {
-    public DataContext(DbContextOptions<DataContext> options) : base(options)
-    {
-    }
-
     public DbSet<Service> Services { get; set; }
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Schedule> Schedules { get; set; }

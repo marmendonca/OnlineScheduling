@@ -5,5 +5,5 @@ namespace OnlineScheduling.Domain.Contracts.Repositories.v1;
 
 public interface ICustomerRepository : IBaseRepository<Customer, int>
 {
-    Task<bool> ExistCustomerByEmailOrPhone(string email, string phone);
+    Task<Customer> GetCustomerByEmailOrPhoneAsync(string email, string phone);
 }

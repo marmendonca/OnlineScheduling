@@ -3,12 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace OnlineScheduling.Api.Controllers.v1;
 
-public abstract class BaseController : ControllerBase
+public abstract class BaseController(IMediator mediator) : ControllerBase
 {
-    protected readonly IMediator _mediator;
-        
-    public BaseController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
+    protected readonly IMediator _mediator = mediator;
 }

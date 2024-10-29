@@ -6,15 +6,12 @@ using OnlineScheduling.Infra.Context;
 
 namespace OnlineScheduling.Infra.Repositories.v1;
 
-public sealed class CustomerRepository : BaseRepository<Customer, int>, ICustomerRepository
+public sealed class CustomerRepository(DataContext context)
+    : BaseRepository<Customer, int>(context), ICustomerRepository
 {
-    public CustomerRepository(DataContext context) : base(context)
-    {
-    }
-
-    public async Task<bool> ExistCustomerByEmailOrPhone(string email, string phone)
+    public async Task<Customer> GetCustomerByEmailOrPhoneAsync(string email, string phone)
     {
         return await _context.Customers
-            .AnyAsync(customer => customer.Email == email || customer.Phone == phone);
+            .FirstOrDefaultAsync(customer => customer.Email == email || customer.Phone == phone);
     }
 }

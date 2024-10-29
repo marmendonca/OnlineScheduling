@@ -6,12 +6,9 @@ using OnlineScheduling.Infra.Context;
 
 namespace OnlineScheduling.Infra.Repositories.v1;
 
-public class ProfessionalRepository : BaseRepository<Professional, int>, IProfessionalRepository
+public class ProfessionalRepository(DataContext context)
+    : BaseRepository<Professional, int>(context), IProfessionalRepository
 {
-    public ProfessionalRepository(DataContext context) : base(context)
-    {
-    }
-
     public async Task<bool> ExistProfessionalByCpfAsync(string cpf)
     {
         return await _context.Professionals.AnyAsync(professional => professional.Cpf == cpf);

@@ -4,9 +4,5 @@ using OnlineScheduling.Infra.Context;
 
 namespace OnlineScheduling.Infra.Repositories.v1;
 
-public class ProfessionalServiceRepository : BaseRepository<ProfessionalService, int>, IProfessionalServiceRepository
-{
-    public ProfessionalServiceRepository(DataContext context) : base(context)
-    {
-    }
-}
+public class ProfessionalServiceRepository(DataContext context)
+    : BaseRepository<ProfessionalService, int>(context), IProfessionalServiceRepository;

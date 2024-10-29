@@ -8,4 +8,5 @@ public interface ICustomerReadOnlyRepository
 {
     Task<IEnumerable<Customer>> FindAsync();
     Task<Customer> GetByIdAsync(int id);
+    Task<Customer> GetByPhoneAsync(string phone);
 }

@@ -22,7 +22,7 @@ namespace OnlineScheduling.Infra.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("OnlineScheduling.Domain.Entities.AvailableTime", b =>
+            modelBuilder.Entity("OnlineScheduling.Domain.Entities.AvailableDate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,8 +36,8 @@ namespace OnlineScheduling.Infra.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("TIME");
+                    b.Property<DateTime>("EndAt")
+                        .HasColumnType("DATETIME2");
 
                     b.Property<int>("Interval")
                         .HasColumnType("INT");
@@ -47,14 +47,12 @@ namespace OnlineScheduling.Infra.Migrations
                         .HasColumnType("INT")
                         .HasDefaultValue(0);
 
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("TIME");
+                    b.Property<DateTime>("StartAt")
+                        .HasColumnType("DATETIME2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfessionalId");
-
-                    b.ToTable("AvailableTime", (string)null);
+                    b.ToTable("AvailableDate", (string)null);
                 });
 
             modelBuilder.Entity("OnlineScheduling.Domain.Entities.Customer", b =>
@@ -202,15 +200,6 @@ namespace OnlineScheduling.Infra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Service", (string)null);
-                });
-
-            modelBuilder.Entity("OnlineScheduling.Domain.Entities.AvailableTime", b =>
-                {
-                    b.HasOne("OnlineScheduling.Domain.Entities.Professional", "Professional")
-                        .WithMany()
-                        .HasForeignKey("ProfessionalId");
-
-                    b.Navigation("Professional");
                 });
 
             modelBuilder.Entity("OnlineScheduling.Domain.Entities.ProfessionalService", b =>

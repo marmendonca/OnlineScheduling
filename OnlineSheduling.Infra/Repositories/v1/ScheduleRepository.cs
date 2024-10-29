@@ -6,12 +6,9 @@ using OnlineScheduling.Domain.Contracts.Repositories.v1;
 
 namespace OnlineScheduling.Infra.Repositories.v1;
 
-public sealed class ScheduleRepository : BaseRepository<Schedule, int>, IScheduleRepository
+public sealed class ScheduleRepository(DataContext context)
+    : BaseRepository<Schedule, int>(context), IScheduleRepository
 {
-    public ScheduleRepository(DataContext context) : base(context)
-    {
-    }
-
     public override async Task<Schedule> GetByIdAsync(int id)
     {
         return await _context.Schedules

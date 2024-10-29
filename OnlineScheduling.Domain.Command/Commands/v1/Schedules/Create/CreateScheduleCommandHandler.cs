@@ -5,24 +5,16 @@ using OnlineScheduling.Domain.Entities;
 
 namespace OnlineScheduling.Domain.Command.Commands.v1.Schedules.Create;
 
-public sealed class CreateScheduleCommandHandler : IRequestHandler<CreateScheduleCommand, Unit>
+public sealed class CreateScheduleCommandHandler(IScheduleRepository scheduleRepository, IMapper mapper)
+    : IRequestHandler<CreateScheduleCommand, Unit>
 {
-    private readonly IScheduleRepository _scheduleRepository;
-    private readonly IMapper _mapper;
-
-    public CreateScheduleCommandHandler(IScheduleRepository scheduleRepository, IMapper mapper)
-    {
-        _scheduleRepository = scheduleRepository;
-        _mapper = mapper;
-    }
-
     public async Task<Unit> Handle(CreateScheduleCommand command, CancellationToken cancellationToken)
     {
-        var schedule = _mapper.Map<Schedule>(command);
+        var schedule = mapper.Map<Schedule>(command);
         
         schedule.SetActive(true);
 
-        await _scheduleRepository.AddAsync(schedule);
+        await scheduleRepository.AddAsync(schedule);
 
         return Unit.Value;
     }
