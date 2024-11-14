@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineScheduling.Domain.Command.Commands.v1.ProfessionalServices.Create;
 using OnlineScheduling.Domain.Command.Commands.v1.ProfessionalServices.Update;
 using OnlineScheduling.Domain.Query.Queries.v1.ProfessionalServices.GetByProfessional;
+using OnlineScheduling.Domain.Query.Queries.v1.ProfessionalServices.GetByService;
 
 namespace OnlineScheduling.Api.Controllers.v1;
 
@@ -11,10 +12,18 @@ namespace OnlineScheduling.Api.Controllers.v1;
 [ApiController]
 public class ProfessionalServiceController(IMediator mediator) : BaseController(mediator)
 {
-    [HttpGet("{professionalId}")]
+    [HttpGet("services/{professionalId}")]
     public async Task<IActionResult> GetServicesByProfessionalAsync([FromRoute] int professionalId)
     {
         var response = await _mediator.Send(new GetServicesByProfessionalQuery(professionalId));
+
+        return Ok(response);
+    }
+    
+    [HttpGet("professionals/{serviceId}")]
+    public async Task<IActionResult> GetProfessionalsByServiceAsync([FromRoute] int serviceId)
+    {
+        var response = await _mediator.Send(new GetProfessionalsByServiceQuery(serviceId));
 
         return Ok(response);
     }

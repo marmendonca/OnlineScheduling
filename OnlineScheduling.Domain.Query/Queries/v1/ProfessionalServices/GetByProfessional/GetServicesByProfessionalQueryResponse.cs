@@ -1,24 +1,25 @@
 using OnlineScheduling.Domain.Dtos;
+using OnlineScheduling.Domain.Entities;
 
 namespace OnlineScheduling.Domain.Query.Queries.v1.ProfessionalServices.GetByProfessional
 {
     public class GetServicesByProfessionalQueryResponse
     {
-        public int ProfessionalId { get; set; }
-        public int ServiceId { get; set; }
-        public string ServiceName { get; set; }
-        public decimal ServiceValue { get; set; }
-        public TimeSpan ServiceCompletionTime { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public decimal Value { get; set; }
+        public TimeSpan CompletionTime { get; set; }
+        public DateTime CreatedAt { get; set; }
 
-        public static explicit operator GetServicesByProfessionalQueryResponse(ProfessionalServiceDto src)
+        public static explicit operator GetServicesByProfessionalQueryResponse(Service src)
         {
-            return new ()
+            return new GetServicesByProfessionalQueryResponse
             {
-                ProfessionalId = src.ProfessionalId,
-                ServiceId = src.ServiceId,
-                ServiceName = src.ServiceName,
-                ServiceValue = src.ServiceValue,
-                ServiceCompletionTime = src.ServiceCompletionTime
+                Id = src.Id,
+                Name = src.Name,
+                Value = src.Value,
+                CompletionTime = src.CompletionTime.GetValueOrDefault(),
+                CreatedAt = src.CreatedAt
             };
         }
     }

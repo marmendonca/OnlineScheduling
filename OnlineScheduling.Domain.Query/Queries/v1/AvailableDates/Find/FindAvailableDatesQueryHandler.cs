@@ -7,7 +7,7 @@ public sealed class FindAvailableDatesQueryHandler(IAvailableDateReadOnlyReposit
 {
     public async Task<IEnumerable<FindAvailableDatesQueryResponse>> Handle(FindAvailableDatesQuery query, CancellationToken cancellationToken)
     {
-        var results = await availableDateReadOnlyRepository.FindAsync(query.ProfessionalId);
+        var results = await availableDateReadOnlyRepository.FindAsync(query.ProfessionalId, query.Active);
             
         return results is null ? [] : results.Select(date => (FindAvailableDatesQueryResponse)date);
     }

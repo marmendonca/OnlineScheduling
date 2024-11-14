@@ -1,5 +1,6 @@
 using MediatR;
 using OnlineScheduling.Domain.Contracts.Repositories.v1;
+using OnlineScheduling.Domain.Entities;
 
 namespace OnlineScheduling.Domain.Query.Queries.v1.ProfessionalServices.GetByProfessional
 {

@@ -10,11 +10,11 @@ namespace OnlineScheduling.Infra.Repositories.Dapper.v1;
 public class AvailableDateRepository(IDapperContext context)
     : AbstractDapperRepository(context), IAvailableDateReadOnlyRepository
 {
-    public async Task<IEnumerable<AvailableDate>> FindAsync(int? professionalId)
+    public async Task<IEnumerable<AvailableDate>> FindAsync(int? professionalId, bool active)
     {
         var connection = _context.OpenConnection();
         var builder = new SqlBuilder()
-            .Where("Active = 1");
+            .Where($"Active = {active}");
             
         if (professionalId > 0)
             builder.Where("ProfessionalId = @professionalId", new { professionalId });

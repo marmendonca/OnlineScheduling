@@ -6,5 +6,5 @@ namespace OnlineScheduling.Domain.Contracts.Repositories.v1;
 
 public interface IAvailableDateReadOnlyRepository
 {
-    Task<IEnumerable<AvailableDate>> FindAsync(int? professionalId);
+    Task<IEnumerable<AvailableDate>> FindAsync(int? professionalId, bool active);
 }

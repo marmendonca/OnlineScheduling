@@ -22,7 +22,8 @@ public class ServiceRepository(IDapperContext context) : AbstractDapperRepositor
                     Value, 
                     CompletionTime, 
                     Active 
-                FROM Service (NOLOCK)");
+                FROM Service (NOLOCK)
+                WHERE Active = 1");
 
         var services = await connection.QueryAsync<Service>(
             resultQuery.RawSql,
