@@ -31,9 +31,9 @@ public class ScheduleController(IMediator mediator) : BaseController(mediator)
     [HttpPost]
     public async Task<IActionResult> CreateAsync([FromBody] CreateScheduleCommand command)
     {
-        await _mediator.Send(command);
+        var response = await _mediator.Send(command);
 
-        return Ok();
+        return Ok(response);
     }
 
     [HttpPut("{id}")]

@@ -3,11 +3,10 @@ using System.Threading.Tasks;
 using OnlineScheduling.Domain.Dtos;
 using OnlineScheduling.Domain.Entities;
 
-namespace OnlineScheduling.Domain.Contracts.Repositories.v1
+namespace OnlineScheduling.Domain.Contracts.Repositories.v1;
+
+public interface IProfessionalServiceReadOnlyRepository
 {
-    public interface IProfessionalServiceReadOnlyRepository
-    {
-        Task<IEnumerable<Service>> GetServicesByProfessionalAsync(int professionalId);
-        Task<IEnumerable<Professional>> GetProfessionalsByServiceAsync(int serviceId);
-    }
+    Task<IEnumerable<Service>> GetServicesByProfessionalAsync(int professionalId);
+    Task<IEnumerable<Professional>> GetProfessionalsByServiceAsync(int serviceId);
 }

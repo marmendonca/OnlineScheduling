@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineScheduling.Infra.Context;
 
@@ -11,9 +12,11 @@ using OnlineScheduling.Infra.Context;
 namespace OnlineScheduling.Infra.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241118235235_ALterTableScheduleAddStatus")]
+    partial class ALterTableScheduleAddStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,39 +56,6 @@ namespace OnlineScheduling.Infra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AvailableDate", (string)null);
-                });
-
-            modelBuilder.Entity("OnlineScheduling.Domain.Entities.Charge", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<Guid?>("CompletedTransactionId")
-                        .HasColumnType("UNIQUEIDENTIFIER");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid?>("CreatedTransactionId")
-                        .HasColumnType("UNIQUEIDENTIFIER");
-
-                    b.Property<int>("ScheduleId")
-                        .HasColumnType("INT");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("INT");
-
-                    b.Property<decimal>("Value")
-                        .HasColumnType("DECIMAL(10,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ScheduleId");
-
-                    b.ToTable("Charge", (string)null);
                 });
 
             modelBuilder.Entity("OnlineScheduling.Domain.Entities.Customer", b =>
@@ -235,17 +205,6 @@ namespace OnlineScheduling.Infra.Migrations
                     b.ToTable("Service", (string)null);
                 });
 
-            modelBuilder.Entity("OnlineScheduling.Domain.Entities.Charge", b =>
-                {
-                    b.HasOne("OnlineScheduling.Domain.Entities.Schedule", "Schedule")
-                        .WithMany("Charges")
-                        .HasForeignKey("ScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Schedule");
-                });
-
             modelBuilder.Entity("OnlineScheduling.Domain.Entities.ProfessionalService", b =>
                 {
                     b.HasOne("OnlineScheduling.Domain.Entities.Professional", "Professional")
@@ -302,11 +261,6 @@ namespace OnlineScheduling.Infra.Migrations
                     b.Navigation("Schedules");
 
                     b.Navigation("Services");
-                });
-
-            modelBuilder.Entity("OnlineScheduling.Domain.Entities.Schedule", b =>
-                {
-                    b.Navigation("Charges");
                 });
 
             modelBuilder.Entity("OnlineScheduling.Domain.Entities.Service", b =>

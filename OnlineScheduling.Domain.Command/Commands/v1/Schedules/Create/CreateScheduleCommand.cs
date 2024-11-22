@@ -2,7 +2,7 @@
 
 namespace OnlineScheduling.Domain.Command.Commands.v1.Schedules.Create;
 
-public sealed class CreateScheduleCommand : IRequest<Unit>
+public sealed class CreateScheduleCommand : IRequest<int>
 {
     public int ServiceId { get; set; }
     public int CustomerId { get; set; }

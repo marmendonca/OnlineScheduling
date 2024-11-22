@@ -13,9 +13,10 @@ public class AvailableDateRepository(IDapperContext context)
     public async Task<IEnumerable<AvailableDate>> FindAsync(int? professionalId, bool active)
     {
         var connection = _context.OpenConnection();
-        var builder = new SqlBuilder()
-            .Where($"Active = {active}");
-            
+        var builder = new SqlBuilder();
+
+        builder.Where(active ? "Active = 1" : "Active = 0");
+
         if (professionalId > 0)
             builder.Where("ProfessionalId = @professionalId", new { professionalId });
 

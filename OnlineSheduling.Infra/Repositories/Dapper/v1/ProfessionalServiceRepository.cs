@@ -6,16 +6,16 @@ using OnlineScheduling.Domain.Contracts.Repositories.v1;
 using OnlineScheduling.Domain.Dtos;
 using OnlineScheduling.Domain.Entities;
 
-namespace OnlineScheduling.Infra.Repositories.Dapper.v1
-{
-    public class ProfessionalServiceRepository(IDapperContext context) : AbstractDapperRepository(context), IProfessionalServiceReadOnlyRepository
-    {
-        public async Task<IEnumerable<Service>> GetServicesByProfessionalAsync(int professionalId)
-        {
-            var connection = _context.OpenConnection();
-            var builder = new SqlBuilder();
+namespace OnlineScheduling.Infra.Repositories.Dapper.v1;
 
-            var resultQuery = builder.AddTemplate(@"
+public class ProfessionalServiceRepository(IDapperContext context) : AbstractDapperRepository(context), IProfessionalServiceReadOnlyRepository
+{
+    public async Task<IEnumerable<Service>> GetServicesByProfessionalAsync(int professionalId)
+    {
+        var connection = _context.OpenConnection();
+        var builder = new SqlBuilder();
+
+        var resultQuery = builder.AddTemplate(@"
                 SELECT 
                     PS.ServiceId AS Id,
                     S.Name,
@@ -26,19 +26,19 @@ namespace OnlineScheduling.Infra.Repositories.Dapper.v1
                 WHERE S.Active = 1
                 AND PS.ProfessionalId = @professionalId", new { professionalId });
 
-            var services = await connection.QueryAsync<Service>(
-                resultQuery.RawSql,
-                resultQuery.Parameters);
+        var services = await connection.QueryAsync<Service>(
+            resultQuery.RawSql,
+            resultQuery.Parameters);
 
-            return services;
-        }
+        return services;
+    }
         
-        public async Task<IEnumerable<Professional>> GetProfessionalsByServiceAsync(int serviceId)
-        {
-            var connection = _context.OpenConnection();
-            var builder = new SqlBuilder();
+    public async Task<IEnumerable<Professional>> GetProfessionalsByServiceAsync(int serviceId)
+    {
+        var connection = _context.OpenConnection();
+        var builder = new SqlBuilder();
 
-            var resultQuery = builder.AddTemplate(@"
+        var resultQuery = builder.AddTemplate(@"
                 SELECT 
                     PS.ProfessionalId AS Id, 
                     P.Name,
@@ -49,11 +49,10 @@ namespace OnlineScheduling.Infra.Repositories.Dapper.v1
                 INNER JOIN Professional P on P.Id = PS.ProfessionalId
                 WHERE PS.ServiceId = @serviceId", new { serviceId });
 
-            var professionals = await connection.QueryAsync<Professional>(
-                resultQuery.RawSql,
-                resultQuery.Parameters);
+        var professionals = await connection.QueryAsync<Professional>(
+            resultQuery.RawSql,
+            resultQuery.Parameters);
 
-            return professionals;
-        }
+        return professionals;
     }
 }

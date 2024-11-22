@@ -1,14 +1,13 @@
 using MediatR;
 using OnlineScheduling.Domain.Contracts.Repositories.v1;
 
-namespace OnlineScheduling.Domain.Query.Queries.v1.Customer.GetByPhone
+namespace OnlineScheduling.Domain.Query.Queries.v1.Customer.GetByPhone;
+
+public class GetCustomerByPhoneQueryHandler(ICustomerReadOnlyRepository customerReadOnlyRepository) : IRequestHandler<GetCustomerByPhoneQuery, GetCustomerByPhoneQueryResponse>
 {
-    public class GetCustomerByPhoneQueryHandler(ICustomerReadOnlyRepository customerReadOnlyRepository) : IRequestHandler<GetCustomerByPhoneQuery, GetCustomerByPhoneQueryResponse>
+    public async Task<GetCustomerByPhoneQueryResponse> Handle(GetCustomerByPhoneQuery request, CancellationToken cancellationToken)
     {
-        public async Task<GetCustomerByPhoneQueryResponse> Handle(GetCustomerByPhoneQuery request, CancellationToken cancellationToken)
-        {
-            var result = await customerReadOnlyRepository.GetByPhoneAsync(request.Phone);
-            return (GetCustomerByPhoneQueryResponse)result;
-        }
+        var result = await customerReadOnlyRepository.GetByPhoneAsync(request.Phone);
+        return (GetCustomerByPhoneQueryResponse)result;
     }
 }

@@ -9,7 +9,10 @@ public sealed class ScheduleProfile : Profile
 {
     public ScheduleProfile()
     {
-        CreateMap<UpdateScheduleCommand, Schedule>();
-        CreateMap<CreateScheduleCommand, Schedule>();
+        CreateMap<UpdateScheduleCommand, Schedule>()
+            .ForMember(dest => dest.ScheduleAt, opt => opt.MapFrom(src => src.ScheduleAt.AddHours(-3)));
+
+        CreateMap<CreateScheduleCommand, Schedule>()
+            .ForMember(dest => dest.ScheduleAt, opt => opt.MapFrom(src => src.ScheduleAt.AddHours(-3)));
     }
 }
