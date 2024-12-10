@@ -1,6 +1,7 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +11,9 @@ using Microsoft.OpenApi.Models;
 using OnlineScheduling.Api.Extensions;
 using OnlineScheduling.Domain.Command.Commands.Mappers;
 using OnlineScheduling.Domain.Command.Commands.v1.Schedules.Create;
+using OnlineScheduling.Domain.ExceptionHandler;
 using OnlineScheduling.Domain.Query.Queries.v1.Schedules.GetById;
+using OnlineScheduling.Domain.Settings;
 using OnlineScheduling.Infra.Context;
 
 namespace OnlineScheduling.Api;
@@ -20,6 +23,7 @@ public class Startup(IConfiguration configuration)
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
+        services.AddExceptionHandler<ApiExceptionHandler>();
 
         var connectionString = configuration.GetSection("DefaultConnection").Value;
         
@@ -28,6 +32,11 @@ public class Startup(IConfiguration configuration)
         );
 
         services.AddDapper(connectionString);
+        
+        services.AddServices();
+        services.AddClients(configuration);
+
+       
         
         services.AddMediatR(config => config
             .RegisterServicesFromAssemblies(typeof(CreateScheduleCommand).Assembly, typeof(GetScheduleByIdQuery).Assembly));
@@ -40,6 +49,8 @@ public class Startup(IConfiguration configuration)
         
         services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
+        services.Configure<EfiBankSettings>(configuration.GetSection("GerencianetCredentials"));
+
         services.AddCors();
 
         services.AddSwaggerGen(c =>
@@ -50,13 +61,26 @@ public class Startup(IConfiguration configuration)
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        app.UseExceptionHandler(new ExceptionHandlerOptions
+        {
+            ExceptionHandler = async context =>
+            {
+                var exceptionHandler = app.ApplicationServices.GetRequiredService<IExceptionHandler>();
+                var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+
+                if (exception != null)
+                {
+                    await exceptionHandler.TryHandleAsync(context, exception, context.RequestAborted);
+                }
+            }
+        });
+        
         if (env.IsDevelopment())
         {
-            app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OnlineSheduling.Api v1"));
         }
-
+        
         app.UseHttpsRedirection();
 
         app.UseRouting();

@@ -69,11 +69,11 @@ namespace OnlineScheduling.Infra.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("CreatedTransactionId")
-                        .HasColumnType("UNIQUEIDENTIFIER");
-
                     b.Property<int>("ScheduleId")
                         .HasColumnType("INT");
+
+                    b.Property<Guid>("SolicitationPaymentId")
+                        .HasColumnType("UNIQUEIDENTIFIER");
 
                     b.Property<int>("Status")
                         .HasColumnType("INT");
@@ -95,6 +95,9 @@ namespace OnlineScheduling.Infra.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Cpf")
+                        .HasColumnType("VARCHAR(11)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");

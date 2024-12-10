@@ -8,6 +8,8 @@ public enum ScheduleStatus
     Schedule = 1,
     [Description("Pendente")]
     Pending = 2,
+    [Description("Pendente pagamento")]
+    PendingPayment = 3,
     [Description("Cancelado")]
-    Canceled = 3
+    Canceled = 4
 }

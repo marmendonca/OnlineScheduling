@@ -13,5 +13,6 @@ public sealed class CustomerMap : IEntityTypeConfiguration<Customer>
         builder.Property(customer => customer.Name).HasColumnType("VARCHAR(100)");
         builder.Property(customer => customer.Phone).HasColumnType("VARCHAR(20)");
         builder.Property(customer => customer.Email).HasColumnType("VARCHAR(100)");
+        builder.Property(customer => customer.Cpf).HasColumnType("VARCHAR(11)");
     }
 }
