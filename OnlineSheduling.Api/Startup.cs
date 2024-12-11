@@ -23,6 +23,7 @@ public class Startup(IConfiguration configuration)
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
+        services.AddProblemDetails();
         services.AddExceptionHandler<ApiExceptionHandler>();
 
         var connectionString = configuration.GetSection("DefaultConnection").Value;
@@ -35,8 +36,6 @@ public class Startup(IConfiguration configuration)
         
         services.AddServices();
         services.AddClients(configuration);
-
-       
         
         services.AddMediatR(config => config
             .RegisterServicesFromAssemblies(typeof(CreateScheduleCommand).Assembly, typeof(GetScheduleByIdQuery).Assembly));
@@ -49,7 +48,7 @@ public class Startup(IConfiguration configuration)
         
         services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 
-        services.Configure<EfiBankSettings>(configuration.GetSection("GerencianetCredentials"));
+        services.Configure<EfiBankSettings>(configuration.GetSection("EfiBankCredentials"));
 
         services.AddCors();
 
@@ -61,19 +60,7 @@ public class Startup(IConfiguration configuration)
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        app.UseExceptionHandler(new ExceptionHandlerOptions
-        {
-            ExceptionHandler = async context =>
-            {
-                var exceptionHandler = app.ApplicationServices.GetRequiredService<IExceptionHandler>();
-                var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
-
-                if (exception != null)
-                {
-                    await exceptionHandler.TryHandleAsync(context, exception, context.RequestAborted);
-                }
-            }
-        });
+        app.UseExceptionHandler();
         
         if (env.IsDevelopment())
         {

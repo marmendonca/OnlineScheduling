@@ -14,7 +14,7 @@ public class Schedule : Entitiy<int>
     public virtual Service Service { get; private set; }
     public virtual Customer Customer { get; private set; }
     public virtual Professional Professional { get; private set; }
-    public virtual ICollection<Charge> Charges { get; private set; }
+    public virtual Charge Charges { get; private set; }
         
     private Schedule() { }
 
