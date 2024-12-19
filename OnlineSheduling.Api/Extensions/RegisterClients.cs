@@ -15,27 +15,34 @@ public static class RegisterClients
 {
     public static void AddClients(this IServiceCollection services, IConfiguration configuration)
     {
+        AddEfiBankClients(services, configuration);
+    }
+
+    private static void AddEfiBankClients(IServiceCollection services, IConfiguration configuration)
+    {
         var efiBankAddress = configuration["EfiBankCredentials:BaseAddress"];
-        var clientId = configuration["EfiBankCredentials:ClientId"];
-        var clientSecret = configuration["EfiBankCredentials:ClientSecret"];
-        var certificatePath = configuration["EfiBankCredentials:CertificatePath"];
-        var certificate = new X509Certificate2(certificatePath!, (string)null, X509KeyStorageFlags.MachineKeySet);
+        var certificate = new X509Certificate2(configuration["EfiBankCredentials:CertificatePath"]!, (string)null, X509KeyStorageFlags.MachineKeySet);
             
         services.AddRefitClient<IEfiBankAuthClient>().ConfigureHttpClient(client =>
-            {
-                client.BaseAddress = new Uri(efiBankAddress!);
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
-                    "Basic", 
-                    Convert.ToBase64String(Encoding.ASCII.GetBytes($"{clientId}:{clientSecret}")));
-            })
-            .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-            {
-                ClientCertificates = { certificate }
-            });
+        {
+            client.BaseAddress = new Uri(efiBankAddress!);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+                "Basic", 
+                Convert.ToBase64String(Encoding.ASCII.GetBytes($"{configuration["EfiBankCredentials:ClientId"]}:{configuration["EfiBankCredentials:ClientSecret"]}")));
+        })
+        .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+        {
+            ClientCertificates = { certificate }
+        });
 
         services.AddRefitClient<IEfiBankChargeClient>().ConfigureHttpClient(client =>
         {
             client.BaseAddress = new Uri(efiBankAddress);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        })
+        .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+        {
+            ClientCertificates = { certificate },
         });
     }
 }

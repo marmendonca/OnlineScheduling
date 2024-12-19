@@ -1,6 +1,10 @@
 using System;
+using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using OnlineScheduling.Domain.Clients.v1.EfiBank;
 using OnlineScheduling.Domain.Clients.v1.EfiBank.Auth;
 using OnlineScheduling.Domain.Clients.v1.EfiBank.Charge;
 using OnlineScheduling.Domain.Contracts.Services.v1;
@@ -9,6 +13,7 @@ using OnlineScheduling.Domain.Entities;
 using OnlineScheduling.Domain.Enums;
 using OnlineScheduling.Domain.Exceptions;
 using OnlineScheduling.Domain.Settings;
+using Refit;
 
 namespace OnlineScheduling.Infra.Services.v1;
 
@@ -38,15 +43,28 @@ public class EfiBankService(
             },
             Valor = new ValueRequest()
             {
-                Original = value
+                Original = value.ToString("F2", CultureInfo.InvariantCulture)
             },
             Chave = _settings.RandomKey,
             SolicitacaoPagador = solicitationPayment
         };
 
-        var response = await chargeClient.CreateChargeAsync(token, chargeRequest);
+        ChargeResponse response;
+        
+        try
+        {
+            response = await chargeClient.CreateChargeAsync(token, chargeRequest);
+        }
+        catch (ApiException ex)
+        {
+            if (string.IsNullOrEmpty(ex?.Content))
+                throw new InfraException("Não foi possível criar a cobrança para o agendamento.");
+            
+            throw new InfraException(GetErrorMessage(ex.Content));
+        }
+        
         if (response is null || GetEfiBankChargeStatus(response.Status) != EfiBankChargeStatus.Active)
-            throw new InfraException("Não foi possível criar a cobrança para agendamento.");
+            throw new InfraException("Não foi possível criar a cobrança para o agendamento.");
         
         var qrCodeResponse = await chargeClient.GetQrCodeAsync(token, response.Loc.Id.ToString());
 
@@ -61,11 +79,20 @@ public class EfiBankService(
             Status = GetEfiBankChargeStatus(response.Status)
         };
     }
+    
+    public async Task<bool> CheckPaymentIsDoneAsync(string txId)
+    {
+        var token = await GetTokenAsync();
+
+        var response = await chargeClient.GetChargeAsync(token, txId);
+
+        return response is not null && GetEfiBankChargeStatus(response.Status) == EfiBankChargeStatus.Concluded;
+    }
 
     private async Task<string> GetTokenAsync()
     {
         var response = await authClient.LoginAsync(new LoginRequest());
-            
+        
         if (response is null || string.IsNullOrWhiteSpace(response.access_token))
             throw new InfraException("Não foi possível obter o token de autenticação para o EfiPay.");
             
@@ -76,11 +103,21 @@ public class EfiBankService(
     {
         return originalStatus switch
         {
-            "PENDING" => EfiBankChargeStatus.Active,
+            "ATIVA" => EfiBankChargeStatus.Active,
             "CONCLUIDA" => EfiBankChargeStatus.Concluded,
             "REMOVIDA_PELO_USUARIO_RECEBEDOR" => EfiBankChargeStatus.RemovedByUser,
             "REMOVIDA_PELO_PSP" => EfiBankChargeStatus.RemovedByPsp,
             _ => EfiBankChargeStatus.RemovedByUser
         };
+    }
+    
+    private static string GetErrorMessage(string content)
+    {
+        var error = JsonConvert.DeserializeObject<EfiBankErrorDto>(content);
+        
+        var pathErrors = error.Erros?.Select(x => x.Caminho);
+        var messageErrors = error.Erros?.Select(x => x.Mensagem);
+        
+        return $"Erro ao criar cobrança. Mensagem: {error.Mensagem} - Caminho: {(pathErrors?.Any() == true ? string.Join("| ", pathErrors) : "")} - Erros: {(messageErrors?.Any() == true ? string.Join("| ", messageErrors) : "")}";
     }
 }

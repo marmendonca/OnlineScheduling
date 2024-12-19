@@ -6,4 +6,5 @@ public class ChargeResponse
     public string Status { get; set; }
     public LocationResponse Loc { get; set; }
     public string PixCopiaECola { get; set; }
+    public string SolicitacaoPagador { get; set; }
 }
