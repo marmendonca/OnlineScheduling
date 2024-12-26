@@ -1,18 +1,12 @@
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using OnlineScheduling.Api.Extensions;
-using OnlineScheduling.Domain.Command.Commands.Mappers;
-using OnlineScheduling.Domain.Command.Commands.v1.Schedules.Create;
+using OnlineScheduling.Application.Modules;
 using OnlineScheduling.Domain.ExceptionHandler;
-using OnlineScheduling.Domain.Query.Queries.v1.Schedules.GetById;
 using OnlineScheduling.Domain.Settings;
 using OnlineScheduling.Infra.Context;
 
@@ -23,30 +17,15 @@ public class Startup(IConfiguration configuration)
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
+        
         services.AddProblemDetails();
         services.AddExceptionHandler<ApiExceptionHandler>();
 
-        var connectionString = configuration.GetSection("DefaultConnection").Value;
-        
         services.AddDbContext<DataContext>(options =>
-            options.UseSqlServer(connectionString)
+            options.UseSqlServer(configuration.GetSection("DefaultConnection").Value)
         );
-
-        services.AddDapper(connectionString);
         
-        services.AddServices();
-        services.AddClients(configuration);
-        
-        services.AddMediatR(config => config
-            .RegisterServicesFromAssemblies(typeof(CreateScheduleCommand).Assembly, typeof(GetScheduleByIdQuery).Assembly));
-
-        services.AddAutoMapper(typeof(CustomerProfile));
-
-        services.AddRepositories<DataContext>();
-        
-        services.AddValidatorsFromAssemblyContaining<CreateScheduleCommandValidator>();
-        
-        services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+        services.AddApplication(configuration);
 
         services.Configure<EfiBankSettings>(configuration.GetSection("EfiBankCredentials"));
 

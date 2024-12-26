@@ -5,21 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.2" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.1" />
-    <PackageReference Include="Scrutor" Version="4.2.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\OnlineScheduling.Domain.Command\OnlineScheduling.Domain.Command.csproj" />
-    <ProjectReference Include="..\OnlineScheduling.Domain.Query\OnlineScheduling.Domain.Query.csproj" />
+    <ProjectReference Include="..\OnlineScheduling.Application\OnlineScheduling.Application.csproj" />
     <ProjectReference Include="..\OnlineSheduling.Domain\OnlineScheduling.Domain.csproj" />
     <ProjectReference Include="..\OnlineSheduling.Infra\OnlineScheduling.Infra.csproj" />
   </ItemGroup>
@@ -28,12 +14,6 @@
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Certificate\homologacao-661308-OnlineSchedulingCertificate.p12">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

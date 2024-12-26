@@ -1,10 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OnlineScheduling.Domain.Command.Commands.v1.Customer.CreateOrUpdate;
-using OnlineScheduling.Domain.Query.Queries.v1.Customer.GetById;
 using System.Threading.Tasks;
-using OnlineScheduling.Domain.Query.Queries.v1.Customer.Find;
-using OnlineScheduling.Domain.Query.Queries.v1.Customer.GetByPhone;
+using OnlineScheduling.Application.Commands.v1.Customer.CreateOrUpdate;
+using OnlineScheduling.Application.Queries.v1.Customer.Find;
+using OnlineScheduling.Application.Queries.v1.Customer.GetById;
+using OnlineScheduling.Application.Queries.v1.Customer.GetByPhone;
 
 namespace OnlineScheduling.Api.Controllers.v1;
 

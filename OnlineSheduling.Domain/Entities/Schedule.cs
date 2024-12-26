@@ -18,8 +18,14 @@ public class Schedule : Entitiy<int>
         
     private Schedule() { }
 
-    public void SetStatus(ScheduleStatus status)
-        => Status = status;
+    public void Start()
+        => Status = ScheduleStatus.Pending;
+    
+    public void Complete()
+        => Status = ScheduleStatus.Schedule;
+    
+    public void ChangeToPendingPayment()
+        => Status = ScheduleStatus.PendingPayment;
     
     public void SetCustomer(Customer customer)
         => Customer = customer;

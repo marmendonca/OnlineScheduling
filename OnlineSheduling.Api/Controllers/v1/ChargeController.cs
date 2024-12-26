@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OnlineScheduling.Domain.Command.Commands.v1.Charges.CheckPayment;
-using OnlineScheduling.Domain.Command.Commands.v1.Charges.Create;
+using OnlineScheduling.Application.Commands.v1.Charges.CheckPayment;
+using OnlineScheduling.Application.Commands.v1.Charges.Create;
 
 namespace OnlineScheduling.Api.Controllers.v1;
 

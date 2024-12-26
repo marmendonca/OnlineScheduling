@@ -14,4 +14,8 @@
     <ProjectReference Include="..\OnlineSheduling.Domain\OnlineScheduling.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Queries\v1\" />
+  </ItemGroup>
+
 </Project>

@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OnlineScheduling.Domain.Command.Commands.v1.AvailableDates.ChangeActive;
-using OnlineScheduling.Domain.Command.Commands.v1.AvailableDates.Create;
-using OnlineScheduling.Domain.Query.Queries.v1.AvailableDates.Find;
+using OnlineScheduling.Application.Commands.v1.AvailableDates.ChangeActive;
+using OnlineScheduling.Application.Commands.v1.AvailableDates.Create;
+using OnlineScheduling.Application.Queries.v1.AvailableDates.Find;
 
 namespace OnlineScheduling.Api.Controllers.v1;
 

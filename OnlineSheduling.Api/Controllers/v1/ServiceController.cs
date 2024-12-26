@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OnlineScheduling.Domain.Command.Commands.v1.Service.Create;
-using OnlineScheduling.Domain.Command.Commands.v1.Service.Update;
-using OnlineScheduling.Domain.Query.Queries.v1.Services.Find;
-using OnlineScheduling.Domain.Query.Queries.v1.Services.GetById;
+using OnlineScheduling.Application.Commands.v1.Service.Create;
+using OnlineScheduling.Application.Commands.v1.Service.Update;
+using OnlineScheduling.Application.Queries.v1.Services.Find;
+using OnlineScheduling.Application.Queries.v1.Services.GetById;
 
 namespace OnlineScheduling.Api.Controllers.v1;
 
